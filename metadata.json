@@ -1,0 +1,6 @@
+{
+  "name": "Candy Crush Ultra: Local-First SEO Engine",
+  "description": "A premium Match-3 puzzle game built as a pure static PWA with programmatic SEO, 30+ location pages, and a 199-level progression tree.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

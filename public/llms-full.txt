@@ -1,0 +1,3 @@
+# Candy Crush Ultra - Full Context
+(Same as llms.txt)
+See codebase for full implementation details.

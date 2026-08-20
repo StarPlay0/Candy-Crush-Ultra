@@ -1,0 +1,20 @@
+# Candy Crush Ultra - AI Context
+
+## Overview
+Candy Crush Ultra is a premium, purely static, local-first Match-3 puzzle game. It uses zero backend compute, storing all progression (199 levels) locally using OPFS/IndexedDB.
+
+## Architecture
+- Frontend: React 18, Next.js 15 (SSG)
+- Styling: Tailwind CSS v4, Framer Motion
+- Storage: idb-keyval (Local-First OPFS fallback)
+- Deployment: Pure Static Files (Cloudflare Pages), zero Workers.
+
+## SEO Structure
+- 30+ Location Pages to capture local search intent
+- Programmatic Feature pages
+- Fully pre-rendered HTML
+
+## Key Differentiators
+- 100% Free, no paywalls
+- 0 ads
+- Zero latency

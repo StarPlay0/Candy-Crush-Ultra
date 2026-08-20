@@ -1,0 +1,32 @@
+import { MetadataRoute } from 'next';
+
+export const dynamic = 'force-static';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Candy Crush Ultra',
+    short_name: 'Candy Ultra',
+    description: 'A premium, fully offline, local-first Match-3 puzzle game.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#FF3B30',
+    icons: [
+      {
+        src: '/icon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+      },
+      {
+        src: '/icon-192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  };
+}
