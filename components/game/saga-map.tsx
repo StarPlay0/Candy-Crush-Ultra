@@ -6,6 +6,7 @@ import { Star, Lock, Play, Mail, Heart, Settings, Plus, Trophy, Sparkles, Award 
 import { getLevelConfig } from '@/lib/levels';
 import { LevelConfig } from '@/lib/game-types';
 import { sound } from '@/lib/audio';
+import { haptics } from '@/lib/haptics';
 import { TOTAL_SAGA_LEVELS, isLevelAccessible } from '@/lib/progression';
 
 interface SagaMapProps {
@@ -56,9 +57,11 @@ export function SagaMap({
   const handleLevelClick = (lvlNum: number) => {
     if (!isLevelAccessible(lvlNum, unlockedLevel)) {
       sound.playPop(0.8);
+      haptics.error();
       return;
     }
     sound.playClick();
+    haptics.touch();
     const config = getLevelConfig(lvlNum);
     setSelectedLevelModal(config);
   };
@@ -66,6 +69,7 @@ export function SagaMap({
   const handleStartPlay = () => {
     if (!selectedLevelModal) return;
     sound.playPop(1.4);
+    haptics.touch();
     onSelectLevel(selectedLevelModal);
     setSelectedLevelModal(null);
   };

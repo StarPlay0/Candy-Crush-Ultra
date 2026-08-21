@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Map, CalendarCheck, ShoppingCart, Sparkles } from 'lucide-react';
+import { Map, CalendarCheck, ShoppingCart } from 'lucide-react';
 import { sound } from '@/lib/audio';
+import { haptics } from '@/lib/haptics';
 
 interface BottomTabBarProps {
   currentTab: 'map' | 'events' | 'shop';
@@ -17,6 +18,7 @@ export function BottomTabBar({
 }: BottomTabBarProps) {
   const handleTabClick = (tab: 'map' | 'events' | 'shop') => {
     sound.playClick();
+    haptics.touch();
     onSelectTab(tab);
   };
 

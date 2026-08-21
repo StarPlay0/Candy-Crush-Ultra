@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Star, Trophy, ArrowRight, RotateCcw, Map, Sparkles, CheckCircle2 } from 'lucide-react';
 import { LevelConfig } from '@/lib/game-types';
+import { sound } from '@/lib/audio';
 
 interface LevelCompleteOverlayProps {
   levelConfig: LevelConfig;

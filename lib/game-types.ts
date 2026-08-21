@@ -45,7 +45,7 @@ export interface LevelConfig {
 
 export interface ActiveEffect {
   id: string;
-  type: 'lightning' | 'laser-h' | 'laser-v' | 'explosion' | 'fish-swim' | 'score-popup';
+  type: 'lightning' | 'laser-h' | 'laser-v' | 'explosion' | 'fish-swim' | 'score-popup' | 'color-bomb' | 'rainbow-burst';
   x: number;
   y: number;
   targetX?: number;

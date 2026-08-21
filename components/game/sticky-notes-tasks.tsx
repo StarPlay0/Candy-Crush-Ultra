@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { CheckCircle2, Gift, Sparkles, X, Award, Flame } from 'lucide-react';
 import { sound } from '@/lib/audio';
+import { haptics } from '@/lib/haptics';
 
 interface Task {
   id: string;
@@ -79,6 +80,7 @@ export function StickyNotesTasks({
 
   const handleClaim = (taskId: string, coins: number) => {
     sound.playLevelWin();
+    haptics.special();
     setTasks(prev =>
       prev.map(t => (t.id === taskId ? { ...t, claimed: true } : t))
     );
@@ -105,7 +107,10 @@ export function StickyNotesTasks({
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => {
+            haptics.touch();
+            onClose();
+          }}
           className="absolute top-5 right-5 w-9 h-9 bg-pink-100 dark:bg-slate-800 text-pink-800 dark:text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
         >
           <X size={20} />

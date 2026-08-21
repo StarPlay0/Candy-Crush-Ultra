@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { X, Sparkles, Plus, ShoppingBag } from 'lucide-react';
+import { X, ShoppingBag } from 'lucide-react';
 import { CandySvg } from './candy-svgs';
 import { sound } from '@/lib/audio';
+import { haptics } from '@/lib/haptics';
 
 interface ShopModalProps {
   isOpen: boolean;
@@ -67,8 +68,11 @@ export function ShopModal({
         className="w-full max-w-md bg-white/95 dark:bg-slate-900/95 rounded-[2.5rem] border-6 border-pink-300 dark:border-indigo-600 shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto"
       >
         <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 bg-pink-100 dark:bg-slate-800 text-pink-800 dark:text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95"
+          onClick={() => {
+            haptics.touch();
+            onClose();
+          }}
+          className="absolute top-5 right-5 w-9 h-9 bg-pink-100 dark:bg-slate-800 text-pink-800 dark:text-white rounded-full flex items-center justify-center hover:scale-105 active:scale-95 cursor-pointer"
         >
           <X size={20} />
         </button>
@@ -112,9 +116,10 @@ export function ShopModal({
                   disabled={!canAfford}
                   onClick={() => {
                     sound.playPop(1.3);
+                    haptics.special();
                     onBuyBooster(item.id, item.cost);
                   }}
-                  className={`px-3 py-2 rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-1 shadow-md transition-all ${
+                  className={`px-3 py-2 rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-1 shadow-md transition-all cursor-pointer ${
                     canAfford
                       ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 hover:scale-105 active:scale-95'
                       : 'bg-slate-300 text-slate-500 cursor-not-allowed'
