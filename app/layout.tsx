@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Candy Crush Ultra - Free Offline Match-3 Game',
   description: 'A premium, completely free, local-first Match-3 puzzle game. 199 levels, 0 ads, purely static performance.',
   manifest: '/manifest.json',
+  verification: {
+    google: 'otderKAIRbSW1PQR1p1pSL2iILJn7iSFMRlmbhz2_9g',
+  },
   openGraph: {
     title: 'Candy Crush Ultra',
     description: 'A premium, completely free, local-first Match-3 puzzle game.',
