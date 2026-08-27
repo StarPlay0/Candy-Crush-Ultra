@@ -3,7 +3,6 @@ import { TrustBar } from '@/components/ui/trust-bar';
 import { Match3Board } from '@/components/game/match3-board';
 import Link from 'next/link';
 import { SplashScreen } from '@/components/ui/splash-screen';
-import { PwaInstallPrompt } from '@/components/ui/pwa-install';
 import { generateBreadcrumbSchema } from '@/lib/schema';
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <SplashScreen />
-      <PwaInstallPrompt />
       
       {/* High Quality Luxury Premium Header */}
       <PremiumHeader />

@@ -154,6 +154,7 @@ export function Match3Board() {
         </div>
       ) : (
         <GameBoardView
+          key={`game-board-level-${currentLevelConfig.id}`}
           levelConfig={currentLevelConfig}
           lives={gameState.lives}
           coins={gameState.coins}
