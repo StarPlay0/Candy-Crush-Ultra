@@ -1,6 +1,9 @@
 import { SEO_LOCATIONS } from '@/lib/constants';
 import Link from 'next/link';
 import { PremiumHeader } from '@/components/ui/premium-header';
+import { FaqSection, FaqItem } from '@/components/ui/faq-section';
+import { generateFaqSchema, generateBreadcrumbSchema } from '@/lib/schema';
+import { Sparkles, MapPin, Trophy, ShieldCheck } from 'lucide-react';
 
 export function generateStaticParams() {
   return SEO_LOCATIONS.map((country) => ({
@@ -8,52 +11,102 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: Promise<{ country: string }> }) {
-  // @ts-ignore - Next.js 15 params are treated as promises in some contexts, but let's safely handle it
-  const country = params.country;
-  const formattedCountry = country ? country.replace('-', ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) : 'Global';
+export async function generateMetadata({ params }: { params: Promise<{ country: string }> }) {
+  const { country } = await params;
+  const formattedCountry = country ? country.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) : 'Global';
   return {
     title: `Play Free Match-3 Games in ${formattedCountry} | Candy Crush Ultra`,
-    description: `Discover the ultimate offline puzzle experience in ${formattedCountry}. Zero latency, no signup, purely local-first Match-3 gaming.`,
+    description: `Discover the ultimate offline puzzle experience in ${formattedCountry}. Zero latency, no signup, purely local-first Match-3 gaming with 199 levels.`,
+    alternates: {
+      canonical: `https://candycrusherultra.pages.dev/locations/${country}`,
+    },
   };
 }
 
 export default async function LocationPage({ params }: { params: Promise<{ country: string }> }) {
   const { country } = await params;
-  const formattedCountry = country.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const formattedCountry = country.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  const locationFaqs: FaqItem[] = [
+    {
+      question: `Is Candy Crush Ultra available for players in ${formattedCountry}?`,
+      answer: `Yes! Candy Crush Ultra is accessible globally from ${formattedCountry} on all mobile browsers, tablets, and desktop computers with zero geo-restrictions or signup requirements.`,
+    },
+    {
+      question: `Can I play without using cellular data in ${formattedCountry}?`,
+      answer: `Yes, after your initial visit, all 199 levels and audio soundscapes are cached locally on your device for 100% offline play.`,
+    },
+    {
+      question: `Is there any cost or subscription fee for players in ${formattedCountry}?`,
+      answer: `Candy Crush Ultra is 100% free forever. There are zero subscription charges, in-app purchases, or pay-to-win locks.`,
+    },
+  ];
+
+  const faqSchema = generateFaqSchema(locationFaqs);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Locations', url: '/locations' },
+    { name: formattedCountry, url: `/locations/${country}` },
+  ]);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-pink-50 text-slate-900 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PremiumHeader />
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-8 mb-12 shadow-sm">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-            The #1 Offline Match-3 Game in <span className="text-red-500">{formattedCountry}</span>
+        <div className="bg-white border-2 border-pink-200 rounded-3xl p-8 md:p-12 mb-12 shadow-xl">
+          <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-800 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-4 border border-pink-200">
+            <MapPin size={14} className="text-pink-600" />
+            <span>Regional Gaming Hub</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-slate-900 leading-tight">
+            The #1 Offline Match-3 Game in <span className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 bg-clip-text text-transparent">{formattedCountry}</span>
           </h1>
-          <p className="text-xl text-slate-600 mb-8">
-            Experience the next generation of puzzle gaming without internet requirements. Purely local-first, lightning fast, and 100% free.
+          <p className="text-lg sm:text-xl text-slate-600 mb-8 font-medium leading-relaxed">
+            Experience the next generation of puzzle gaming without internet requirements. Purely local-first, lightning fast, and 100% free for players across {formattedCountry}.
           </p>
-          <Link href="/" className="inline-flex items-center justify-center bg-red-500 hover:bg-red-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-transform active:scale-95 shadow-lg shadow-red-500/30">
+          <Link href="/" className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-600 hover:brightness-110 text-white font-black py-4 px-10 rounded-2xl text-lg transition-transform active:scale-95 shadow-xl border-b-4 border-purple-800">
             Play Now for Free
           </Link>
         </div>
 
-        <section className="space-y-8">
+        <section className="space-y-8 bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm mb-12">
           <article>
-            <h2 className="text-2xl font-bold mb-3">Why {formattedCountry} Players Love Candy Crush Ultra</h2>
-            <p className="text-slate-700 leading-relaxed">
-              We built this game specifically with performance in mind. Whether you are commuting, on a flight, or just relaxing at home in {formattedCountry}, our zero-latency local-first architecture means the game loads instantly and never requires a continuous connection.
+            <h2 className="text-2xl font-black mb-3 text-slate-900 flex items-center gap-2">
+              <Sparkles size={20} className="text-amber-500" />
+              Why {formattedCountry} Players Love Candy Crush Ultra
+            </h2>
+            <p className="text-slate-700 leading-relaxed font-medium">
+              We built this game specifically with performance in mind. Whether you are commuting, on a flight, or relaxing at home in {formattedCountry}, our zero-latency local-first architecture means the game loads instantly and never requires a continuous connection.
             </p>
           </article>
 
-          <article>
-            <h2 className="text-2xl font-bold mb-3">199 Levels of Puzzle Mastery</h2>
-            <p className="text-slate-700 leading-relaxed">
-              Our 199-level progression tree is carefully balanced to provide the perfect mix of challenge and reward. No frustrating paywalls, just pure skill-based Match-3 mechanics with satisfying combos and boosters.
+          <article className="pt-4 border-t border-slate-100">
+            <h2 className="text-2xl font-black mb-3 text-slate-900 flex items-center gap-2">
+              <Trophy size={20} className="text-purple-600" />
+              199 Levels of Pure Match-3 Mastery
+            </h2>
+            <p className="text-slate-700 leading-relaxed font-medium">
+              Our 199-level progression tree is carefully balanced to provide the perfect mix of challenge and reward. No frustrating paywalls, just pure skill-based Match-3 mechanics with satisfying combos, multi-beam Color Bombs, and powerful boosters.
             </p>
           </article>
         </section>
+
+        <FaqSection
+          title={`${formattedCountry} FAQs`}
+          subtitle={`Frequently asked questions for puzzle players located in ${formattedCountry}.`}
+          items={locationFaqs}
+          className="mb-8 px-0"
+        />
       </div>
     </div>
   );
 }
+

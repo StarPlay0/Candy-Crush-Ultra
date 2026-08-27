@@ -1,6 +1,9 @@
 import { SEO_FEATURES } from '@/lib/constants';
 import Link from 'next/link';
 import { PremiumHeader } from '@/components/ui/premium-header';
+import { FaqSection, FaqItem } from '@/components/ui/faq-section';
+import { generateFaqSchema, generateBreadcrumbSchema } from '@/lib/schema';
+import { Sparkles, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 
 export function generateStaticParams() {
   return SEO_FEATURES.map((feature) => ({
@@ -8,13 +11,15 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: Promise<{ feature: string }> }) {
-  // @ts-ignore
-  const feature = params.feature;
-  const formattedFeature = feature.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+export async function generateMetadata({ params }: { params: Promise<{ feature: string }> }) {
+  const { feature } = await params;
+  const formattedFeature = feature ? feature.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) : 'Match 3';
   return {
-    title: `${formattedFeature} | Candy Crush Ultra`,
-    description: `Discover everything about ${formattedFeature} with our completely offline, local-first premium Match-3 engine.`,
+    title: `${formattedFeature} | Candy Crush Ultra Free Match-3`,
+    description: `Discover everything about ${formattedFeature} with our completely offline, local-first premium Match-3 puzzle engine. 199 levels, 0 ads.`,
+    alternates: {
+      canonical: `https://candycrusherultra.pages.dev/features/${feature}`,
+    },
   };
 }
 
@@ -22,43 +27,94 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
   const { feature } = await params;
   const formattedFeature = feature.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
+  const featureFaqs: FaqItem[] = [
+    {
+      question: `How does Candy Crush Ultra provide the best ${formattedFeature} experience?`,
+      answer: `Our game is engineered as a zero-latency progressive web app using local-first SQLite OPFS storage. You get 60fps performance and instant response times without needing an active internet connection.`,
+    },
+    {
+      question: `Are all 199 levels accessible in ${formattedFeature}?`,
+      answer: `Yes! Every single level from 1 to 199 is 100% free and unlocked through skill progression. There are no paywalls or energy recharge timers.`,
+    },
+    {
+      question: `Can I play offline without consuming mobile data?`,
+      answer: `Absolutely. Once loaded or installed as a PWA, the entire game engine, audio synthesizer, and graphics assets run completely offline.`,
+    },
+  ];
+
+  const faqSchema = generateFaqSchema(featureFaqs);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Features', url: '/features' },
+    { name: formattedFeature, url: `/features/${feature}` },
+  ]);
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-pink-50 text-slate-900 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PremiumHeader />
-      <div className="max-w-3xl mx-auto bg-white p-10 md:p-16 rounded-3xl shadow-sm border border-slate-100 mt-10 px-6">
-        <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
-          The Ultimate Guide to <span className="text-blue-500">{formattedFeature}</span>
+      <div className="max-w-4xl mx-auto bg-white p-8 md:p-14 rounded-3xl shadow-xl border border-pink-100 mt-10 px-6">
+        <div className="inline-flex items-center gap-2 bg-pink-100 text-pink-800 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-4 border border-pink-200">
+          <Sparkles size={14} className="text-pink-600" />
+          <span>Feature Showcase</span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-slate-900">
+          The Ultimate Guide to <span className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 bg-clip-text text-transparent">{formattedFeature}</span>
         </h1>
         
         <div className="prose prose-lg prose-slate max-w-none">
-          <p className="lead text-xl text-slate-600 mb-8">
-            When looking for <strong>{formattedFeature.toLowerCase()}</strong>, users consistently demand performance, privacy, and uninterrupted gameplay. Our engine delivers exactly that.
+          <p className="lead text-xl text-slate-600 mb-8 font-medium">
+            When looking for <strong>{formattedFeature.toLowerCase()}</strong>, players demand authentic candy match-3 physics, responsive swipe controls, and uninterrupted gameplay without pay-to-win locks.
           </p>
 
-          <h2 className="text-2xl font-bold mt-10 mb-4">Why is {formattedFeature} Important?</h2>
-          <p className="mb-6">
-            In modern mobile gaming, heavy applications drain batteries and rely on constant internet connections. By building a pure HTML5 Canvas and React application, we eliminate network overhead. This ensures that your experience with {formattedFeature.toLowerCase()} is flawless, whether you&apos;re commuting or relaxing at home.
+          <h2 className="text-2xl font-bold mt-10 mb-4 text-slate-900">Why {formattedFeature} with Candy Crush Ultra?</h2>
+          <p className="mb-6 text-slate-700 leading-relaxed">
+            In modern mobile gaming, bloated applications drain batteries and rely on continuous server connections for telemetry and advertisements. By building a pure HTML5 Canvas and React application, we eliminate network latency and deliver lightning-fast candy blasting.
           </p>
 
-          <div className="bg-slate-100 p-6 rounded-xl my-8 border-l-4 border-blue-500">
-            <h3 className="font-bold text-lg mb-2">Key Takeaways</h3>
-            <ul className="list-disc pl-5 space-y-2 text-slate-700">
-              <li>100% Offline capability via OPFS</li>
-              <li>Zero latency interactions (no server roundtrips)</li>
-              <li>Free from unskippable video ads</li>
+          <div className="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-2xl my-8 border-2 border-pink-200">
+            <h3 className="font-black text-lg mb-3 text-slate-900 flex items-center gap-2">
+              <ShieldCheck size={20} className="text-emerald-600" />
+              Core Highlights & Guarantees
+            </h3>
+            <ul className="space-y-2 text-slate-700 font-medium">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                100% Offline capability with local-first persistence
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                Zero latency swipe & match interactions (60fps canvas)
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                No unskippable video ads or paywalls
+              </li>
             </ul>
           </div>
 
-          <h2 className="text-2xl font-bold mt-10 mb-4">Experience it Yourself</h2>
-          <p className="mb-8">
-            Don&apos;t just take our word for it. Our 199-level progression tree is ready for you to explore right now directly in your browser.
-          </p>
+          <FaqSection
+            title="Feature FAQs"
+            subtitle={`Common questions regarding ${formattedFeature.toLowerCase()} in Candy Crush Ultra.`}
+            items={featureFaqs}
+            className="my-8 px-0"
+          />
 
-          <Link href="/" className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-transform active:scale-95 shadow-lg shadow-blue-500/30 no-underline">
-            Play Candy Crush Ultra Now
-          </Link>
+          <div className="pt-4 text-center">
+            <Link href="/" className="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-purple-600 hover:brightness-110 text-white font-black py-4 px-10 rounded-2xl text-lg transition-transform active:scale-95 shadow-xl border-b-4 border-purple-800">
+              Play Candy Crush Ultra Now
+            </Link>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+

@@ -2,14 +2,62 @@ import { PremiumHeader } from '@/components/ui/premium-header';
 import { TrustBar } from '@/components/ui/trust-bar';
 import { Match3Board } from '@/components/game/match3-board';
 import { Testimonials } from '@/components/ui/testimonials';
+import { FaqSection, FaqItem } from '@/components/ui/faq-section';
 import Link from 'next/link';
 import { SplashScreen } from '@/components/ui/splash-screen';
 import { PwaInstallPrompt } from '@/components/ui/pwa-install';
-import { Sparkles, Trophy, ShieldCheck, Zap, Star, Award, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Star, Award, CheckCircle2 } from 'lucide-react';
+import { generateFaqSchema, generateBreadcrumbSchema } from '@/lib/schema';
+
+const homeFaqs: FaqItem[] = [
+  {
+    question: 'Is Candy Crush Ultra really 100% free to play?',
+    answer:
+      'Yes, Candy Crush Ultra is 100% free with all 199 levels unlocked through gameplay skill. There are no paywalls, hidden in-app purchases, or forced energy timers.',
+  },
+  {
+    question: 'Can I play Candy Crush Ultra offline without Wi-Fi?',
+    answer:
+      'Yes! Candy Crush Ultra is built on a progressive web app and local-first architecture (SQLite OPFS/Cache), so you can play all levels, hear audio effects, and save your star progress completely offline.',
+  },
+  {
+    question: 'How do Color Bombs and special combos work?',
+    answer:
+      'Matching 5 candies in a row creates a multi-color sprinkle Color Bomb. Swapping it with any candy zaps all candies of that color. Combining a Color Bomb with a Striped candy transforms every matching candy on the board into striped lasers for massive board-clearing cascades!',
+  },
+  {
+    question: 'Can I install Candy Crush Ultra as an app on my phone or PC?',
+    answer:
+      'Yes, you can install Candy Crush Ultra directly to your Android, iOS, Windows, or Mac home screen via the PWA Install button or convert it into an APK/AAB package.',
+  },
+  {
+    question: 'How many levels are included in the Saga map?',
+    answer:
+      'The game features 199 handcrafted levels across vibrant sweet biomes with moving obstacles, chocolate blockers, jelly clearing, and target score objectives.',
+  },
+  {
+    question: 'Is my game progress saved automatically?',
+    answer:
+      'Yes, your high scores, unlocked levels, stars earned (up to 3 stars per level), and boosters are saved instantly to your device local storage with zero cloud latency.',
+  },
+];
 
 export default function Home() {
+  const faqSchema = generateFaqSchema(homeFaqs);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+  ]);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#BAE6FD] via-[#FBCFE8] to-[#E0D4FD] text-slate-800 overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <SplashScreen />
       <PwaInstallPrompt />
       
@@ -19,75 +67,12 @@ export default function Home() {
       <TrustBar />
 
       {/* Hero / Game Area */}
-      <section id="game-board" className="pt-6 pb-16 px-4 md:px-8 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col xl:flex-row items-center justify-between gap-10">
-          
-          {/* Left Hero Content */}
-          <div className="flex-1 text-center xl:text-left">
-            <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-md px-4 py-1.5 rounded-full border-2 border-pink-300 shadow-md mb-4">
-              <Sparkles size={16} className="text-pink-500" />
-              <span className="text-pink-900 font-black text-xs uppercase tracking-widest">
-                Candy Kingdom Saga Map • 199 Levels
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight select-none mb-4 leading-tight drop-shadow-sm">
-              Sweetest <span className="bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 bg-clip-text text-transparent">Match-3 Saga</span> <br className="hidden sm:inline" />
-              Ever Created
-            </h1>
-
-            <p className="text-base sm:text-lg text-slate-700 mb-6 max-w-xl mx-auto xl:mx-0 font-bold leading-relaxed">
-              Match vibrant candies, unleash multi-beam Color Bombs (&quot;bolls&quot;), blast striped lasers, and conquer the winding sugar road with Tiffi and Yeti. 100% Free & Offline.
-            </p>
-
-            {/* Quick Feature Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8 max-w-lg mx-auto xl:mx-0">
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-2xl border border-white/80 shadow-sm flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-pink-100 flex items-center justify-center text-pink-600 font-black">
-                  <Zap size={18} />
-                </div>
-                <div className="text-left">
-                  <div className="text-xs font-black text-slate-900">Color Bombs</div>
-                  <div className="text-[10px] font-bold text-slate-500">Lightning Zaps</div>
-                </div>
-              </div>
-
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-2xl border border-white/80 shadow-sm flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 font-black">
-                  <Trophy size={18} />
-                </div>
-                <div className="text-left">
-                  <div className="text-xs font-black text-slate-900">199 Levels</div>
-                  <div className="text-[10px] font-bold text-slate-500">Saga Map</div>
-                </div>
-              </div>
-
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-2xl border border-white/80 shadow-sm flex items-center gap-2 col-span-2 sm:col-span-1">
-                <div className="w-8 h-8 rounded-xl bg-teal-100 flex items-center justify-center text-teal-600 font-black">
-                  <ShieldCheck size={18} />
-                </div>
-                <div className="text-left">
-                  <div className="text-xs font-black text-slate-900">100% Offline</div>
-                  <div className="text-[10px] font-bold text-slate-500">Local-First</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center xl:justify-start">
-              <Link 
-                href="/comparison" 
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:brightness-105 border-b-4 border-purple-800 rounded-2xl py-3.5 px-6 text-base font-black text-white uppercase tracking-wider shadow-lg active:border-b-0 active:translate-y-1 transition-all text-center"
-              >
-                Why Choose Us vs Rivals
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Hero: Full Interactive Match-3 Candy Crush App */}
-          <div className="flex-1 w-full flex justify-center">
+      <section id="game-board" className="pt-2 pb-12 px-2 sm:px-4 md:px-8 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center justify-center">
+          {/* Full Interactive Match-3 Candy Crush App */}
+          <div className="w-full flex justify-center">
             <Match3Board />
           </div>
-
         </div>
       </section>
 
@@ -135,7 +120,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* User Reviews & Testimonials */}
       <Testimonials />
+
+      {/* Interactive FAQ Section with Schema-compliant markup */}
+      <FaqSection
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions about gameplay, level progression, offline modes, and installation."
+        items={homeFaqs}
+        className="bg-white/30 backdrop-blur-xs border-b border-white/40"
+      />
 
       {/* SEO Footer & Internal Links */}
       <footer className="bg-slate-900 text-white/80 py-16 px-6 border-t border-slate-800">
@@ -180,3 +174,4 @@ export default function Home() {
     </main>
   );
 }
+

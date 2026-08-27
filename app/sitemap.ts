@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.APP_URL || 'https://candy-crush-ultra.com';
+  const baseUrl = process.env.APP_URL || 'https://candycrusherultra.pages.dev';
 
   const locations = [
     'us', 'uk', 'japan', 'germany', 'brazil', 'canada', 'australia', 'france', 'italy', 'spain',
@@ -49,3 +49,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...featureUrls,
   ];
 }
+

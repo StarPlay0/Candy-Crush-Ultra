@@ -36,18 +36,6 @@ export function PremiumHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/85 backdrop-blur-xl border-b border-pink-200/70 shadow-[0_4px_24px_rgba(236,72,153,0.08)] transition-all">
-      {/* Luxury Micro Announcement Banner (Subtle & High-End) */}
-      <div className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 text-white text-[11px] font-black uppercase tracking-wider py-1.5 px-4 text-center flex items-center justify-center gap-2 relative overflow-hidden shadow-inner">
-        <div className="flex items-center gap-1.5">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-400"></span>
-          </span>
-          <span className="text-yellow-300">SAGA 2026 EDITION:</span>
-          <span>199 Handcrafted Match-3 Levels • 100% Free • Zero Lag (Local-First Engine)</span>
-        </div>
-      </div>
-
       {/* Main Luxury Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
         
