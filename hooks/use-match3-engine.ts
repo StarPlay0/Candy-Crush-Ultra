@@ -568,7 +568,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       b = dropResult.board;
       setBoard([...b]);
       sound.playDrop();
-      await new Promise(r => setTimeout(r, 110));
+      await new Promise(r => setTimeout(r, 60));
 
       const { matches, matchGroups } = findGridMatches(b);
       if (matches.length === 0) break;
@@ -583,7 +583,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
         color: b[m.y]?.[m.x]?.candy?.color || 'yellow',
       }));
       setHighlightedMatches(cascadeCandiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 200);
+      setTimeout(() => setHighlightedMatches([]), 120);
 
       // Play satisfying multi-layer popping sound
       sound.playPop(1 + cascadeCount * 0.18, matches.length);
@@ -666,7 +666,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       b = nextBoard;
       setBoard([...b]);
-      await new Promise(r => setTimeout(r, 110));
+      await new Promise(r => setTimeout(r, 60));
     }
 
     setScore(prev => prev + totalAddedScore);
@@ -676,7 +676,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
     setTimeout(() => {
       setComboMultiplier(1);
-    }, 1200);
+    }, 1000);
 
     setMoves(prevMoves => {
       const nextMoves = prevMoves - 1;
@@ -712,7 +712,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     swappedBoard[c2.y][c2.x].candy = tempCandy;
 
     setBoard([...swappedBoard]);
-    await new Promise(r => setTimeout(r, 120));
+    await new Promise(r => setTimeout(r, 65));
 
     // 2. Check for Color Bomb Specials
     const isC1ColorBomb = cell1.candy.color === 'rainbow' || cell1.candy.special === 'color-bomb';
@@ -745,7 +745,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       addScorePopup(c2.x, c2.y, 5000, 'SUPERNOVA NUKE!');
 
       setBoard([...clearedBoard]);
-      await new Promise(r => setTimeout(r, 260));
+      await new Promise(r => setTimeout(r, 120));
       await processCascades(clearedBoard, 5000, allCandies.length, 2);
       return true;
     }
@@ -781,7 +781,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       addScorePopup(bombPos.x, bombPos.y, addedScore, 'COLOR BOMB CLEAR!');
 
       setBoard([...nextBoard]);
-      await new Promise(r => setTimeout(r, 260));
+      await new Promise(r => setTimeout(r, 120));
       await processCascades(nextBoard, addedScore, clearedCount, 2);
       return true;
     }
@@ -799,7 +799,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       // Highlight matched candies
       setHighlightedMatches(candiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 380);
+      setTimeout(() => setHighlightedMatches([]), 150);
 
       // Play satisfying popping sound
       sound.playPop(1.1, matches.length);
@@ -874,7 +874,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       addScorePopup(c2.x, c2.y, addedScore, `+${addedScore}`);
       setBoard([...nextBoard]);
-      await new Promise(r => setTimeout(r, 120));
+      await new Promise(r => setTimeout(r, 60));
       await processCascades(nextBoard, addedScore, addedProgress, 1);
       return true;
     }
@@ -882,7 +882,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     // 4. Invalid Move: Swap back smoothly!
     sound.playClick();
     haptics.error();
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 70));
     setBoard([...board]); // Reset back to original
     setIsProcessing(false);
     isSwappingRef.current = false;
@@ -1044,7 +1044,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       const deltaY = e.clientY - dragStartRef.current.clientY;
       const absX = Math.abs(deltaX);
       const absY = Math.abs(deltaY);
-      const threshold = 18; // 18px swipe threshold for instant responsive tactile drag
+      const threshold = 8; // 8px swipe threshold for instant responsive tactile drag
 
       if (absX >= threshold || absY >= threshold) {
         const startX = dragStartRef.current.cellX;

@@ -1,6 +1,7 @@
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { PwaInstallPrompt } from '@/components/ui/pwa-install';
+import { SiteBottomNav } from '@/components/ui/site-bottom-nav';
 import { generateWebSiteSchema, generateVideoGameSchema } from '@/lib/schema';
 
 export const viewport: Viewport = {
@@ -72,6 +73,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body className="antialiased font-sans selection:bg-white/30 min-h-screen bg-[#5BCEFA]" style={{ background: 'radial-gradient(circle at center, #64D3FF 0%, #2980B9 100%)' }} suppressHydrationWarning>
         {children}
         <PwaInstallPrompt />
+        <SiteBottomNav />
         <script dangerouslySetInnerHTML={{
           __html: `
             if ('serviceWorker' in navigator) {
@@ -89,3 +91,4 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     </html>
   );
 }
+

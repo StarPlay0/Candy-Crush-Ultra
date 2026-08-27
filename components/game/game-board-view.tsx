@@ -503,15 +503,10 @@ export function GameBoardView({
             {comboAlert && (
               <motion.div
                 key={comboAlert.id}
-                initial={{ opacity: 0, scale: 0.2, y: 35, rotate: -10 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: [0.2, 1.28, 1.05], 
-                  y: [25, -12, 0], 
-                  rotate: [-10, 5, -2, 0] 
-                }}
-                exit={{ opacity: 0, scale: 1.35, y: -40, filter: 'blur(4px)' }}
-                transition={{ duration: 0.45, ease: [0.175, 0.885, 0.32, 1.275], type: 'tween' }}
+                initial={{ opacity: 0, scale: 0.6, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 1.2, y: -20 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
                 className="absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center justify-center w-full max-w-[340px] px-3"
               >
                 <div className="relative px-6 py-3 rounded-3xl bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 border-3 border-yellow-200 shadow-[0_0_40px_rgba(251,191,36,0.95),0_15px_30px_rgba(0,0,0,0.5)] flex items-center gap-3 overflow-hidden">

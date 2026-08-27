@@ -14,7 +14,7 @@ export function CandySvg({ color, special = 'none', className = '', size = 52 }:
   // If it's a Color Bomb (Choco Truffle with Rainbow Sprinkles)
   if (color === 'rainbow' || special === 'color-bomb') {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`filter drop-shadow-md select-none ${className}`}>
+      <svg width={size} height={size} viewBox="0 0 100 100" className={`select-none ${className}`}>
         <defs>
           <radialGradient id="chocoBallGrad" cx="35%" cy="35%" r="65%">
             <stop offset="0%" stopColor="#6D4C41" />
@@ -22,13 +22,6 @@ export function CandySvg({ color, special = 'none', className = '', size = 52 }:
             <stop offset="85%" stopColor="#2A1713" />
             <stop offset="100%" stopColor="#150805" />
           </radialGradient>
-          <filter id="chocoAura" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
         
         {/* Pulsing Golden Rainbow Halo */}
@@ -38,10 +31,8 @@ export function CandySvg({ color, special = 'none', className = '', size = 52 }:
           r="46" 
           fill="none" 
           stroke="#FFD54F" 
-          strokeWidth="3" 
+          strokeWidth="2.5" 
           strokeDasharray="6,4" 
-          className="animate-spin" 
-          style={{ transformOrigin: '50px 50px', animationDuration: '6s' }} 
         />
         
         {/* Main Decadent Chocolate Sphere */}
@@ -98,7 +89,7 @@ export function CandySvg({ color, special = 'none', className = '', size = 52 }:
     };
     const c = fishColors[color as CandyColor] || fishColors.blue;
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className={`filter drop-shadow-md select-none ${className}`}>
+      <svg width={size} height={size} viewBox="0 0 100 100" className={`select-none ${className}`}>
         <defs>
           <linearGradient id={`fishGrad-${color}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
@@ -183,7 +174,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🔴 RED: Cute Strawberry Jelly Bean / Heart Bonbon
     case 'red':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="redStrawberryGrad" cx="35%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#FF7096" />
@@ -229,7 +220,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🟠 ORANGE: Juicy Mandarin / Sunkissed Lozenge
     case 'orange':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="orangeMandarinGrad" cx="35%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#FFE082" />
@@ -261,7 +252,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🟡 YELLOW: Butterscotch Honey Drop / Star Bonbon
     case 'yellow':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="yellowButterscotchGrad" cx="35%" cy="35%" r="65%">
               <stop offset="0%" stopColor="#FFFFB3" />
@@ -297,7 +288,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🟢 GREEN: Refreshing Lime / Green Apple Gummy Cushion
     case 'green':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="greenAppleGrad" cx="30%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#D8F3DC" />
@@ -324,7 +315,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🔵 BLUE: Blueberry Soda Bubble / Lollipop Drop
     case 'blue':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="blueSodaGrad" cx="35%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#CAF0F8" />
@@ -356,7 +347,7 @@ function renderCandyShape(color: CandyColor, size: number) {
     // 🟣 PURPLE: Grape Jelly Gumdrop / Flower Jewel
     case 'purple':
       return (
-        <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md">
+        <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
           <defs>
             <radialGradient id="purpleGrapeGrad" cx="35%" cy="30%" r="70%">
               <stop offset="0%" stopColor="#F72585" />
@@ -392,7 +383,7 @@ function renderCandyShape(color: CandyColor, size: number) {
 export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: number }) {
   if (type === 'licorice') {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md select-none">
+      <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
         <defs>
           <radialGradient id="licoriceGrad" cx="40%" cy="35%" r="65%">
             <stop offset="0%" stopColor="#616161" />
@@ -413,7 +404,7 @@ export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: nu
 
   if (type === 'chocolate') {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md select-none">
+      <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
         <defs>
           <linearGradient id="chocoTile" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#6D4C41" />
@@ -429,7 +420,7 @@ export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: nu
 
   if (type === 'waffle') {
     return (
-      <svg width={size} height={size} viewBox="0 0 100 100" className="filter drop-shadow-md select-none">
+      <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
         <rect x="12" y="12" width="76" height="76" rx="14" fill="#D7CCC8" stroke="#8D6E63" strokeWidth="3" />
         <rect x="20" y="20" width="60" height="60" rx="8" fill="#EFEBE9" />
         <path d="M35,20 L35,80 M50,20 L50,80 M65,20 L65,80 M20,35 L80,35 M20,50 L80,50 M20,65 L80,65" stroke="#BCAAA4" strokeWidth="2.5" strokeLinecap="round" />
