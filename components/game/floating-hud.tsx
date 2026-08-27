@@ -243,11 +243,11 @@ export function FloatingHud({
           <AnimatePresence>
             {comboMultiplier > 1 && (
               <motion.div
-                initial={{ scale: 0, rotate: -25, y: 10 }}
-                animate={{ scale: [1, 1.2, 1.05], rotate: [0, -5, 5, 0], y: 0 }}
-                exit={{ scale: 0, opacity: 0, transition: { duration: 0.2 } }}
-                transition={{ type: 'spring', stiffness: 500, damping: 15 }}
-                className="bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-400 text-amber-950 font-black text-xs px-2.5 py-1 rounded-full border-2 border-white shadow-lg flex items-center gap-1 ring-2 ring-yellow-400/60 animate-pulse"
+                initial={{ scale: 0, rotate: -15, y: 8, opacity: 0 }}
+                animate={{ scale: 1, rotate: 0, y: 0, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0, transition: { duration: 0.15 } }}
+                transition={{ type: 'spring', stiffness: 500, damping: 18 }}
+                className="bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-400 text-amber-950 font-black text-xs px-2.5 py-1 rounded-full border-2 border-white shadow-lg flex items-center gap-1 ring-2 ring-yellow-400/60"
               >
                 <Flame size={13} className="text-orange-600 animate-bounce" />
                 <span className="tracking-tight">x{comboMultiplier} COMBO!</span>

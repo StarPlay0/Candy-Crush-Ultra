@@ -164,12 +164,12 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
   const dragStartRef = useRef<{ clientX: number; clientY: number; cellX: number; cellY: number } | null>(null);
   const isSwappingRef = useRef(false);
 
-  // Spawn visual candy crush particles & shockwaves
+  // Spawn visual candy crush particles & shockwaves with lightweight footprint
   const spawnCrushParticles = useCallback((nodes: { x: number; y: number; color?: CandyColor | 'rainbow' }[]) => {
     const newParticles: CandyParticle[] = [];
     const newShockwaves: CrushShockwave[] = [];
 
-    nodes.forEach(node => {
+    nodes.slice(0, 3).forEach(node => {
       const colorKey = node.color || 'red';
       const palette = PARTICLE_COLOR_MAP[colorKey] || PARTICLE_COLOR_MAP.red;
 
@@ -181,11 +181,11 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
         color: palette[0],
       });
 
-      // 8 particles per crushed candy with randomized radial velocities
-      const particleCount = 8;
+      // 4 particles per crushed candy with randomized radial velocities
+      const particleCount = 4;
       for (let i = 0; i < particleCount; i++) {
         const angle = (Math.PI * 2 * i) / particleCount + (Math.random() * 0.4 - 0.2);
-        const speed = 25 + Math.random() * 45;
+        const speed = 25 + Math.random() * 35;
         const color = palette[Math.floor(Math.random() * palette.length)];
         const shapes: CandyParticle['shape'][] = ['shard', 'sparkle', 'circle', 'star'];
         const shape = shapes[Math.floor(Math.random() * shapes.length)];
@@ -197,26 +197,21 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
           color,
           dx: Math.cos(angle) * speed,
           dy: Math.sin(angle) * speed,
-          size: 5 + Math.random() * 6,
-          rotation: Math.random() * 360,
+          size: 5 + Math.random() * 4,
+          rotation: Math.random() * 180,
           shape,
-          delay: Math.random() * 0.05,
+          delay: 0,
         });
       }
     });
 
-    setParticles(prev => [...prev, ...newParticles.slice(0, 15)]);
-    setShockwaves(prev => [...prev, ...newShockwaves.slice(0, 2)]);
+    setParticles(prev => [...prev.slice(-4), ...newParticles].slice(0, 8));
+    setShockwaves(prev => [...prev.slice(-1), ...newShockwaves].slice(0, 2));
 
     setTimeout(() => {
-      const idsToRemove = new Set(newParticles.map(p => p.id));
-      setParticles(prev => prev.filter(p => !idsToRemove.has(p.id)));
-    }, 850);
-
-    setTimeout(() => {
-      const swIdsToRemove = new Set(newShockwaves.map(s => s.id));
-      setShockwaves(prev => prev.filter(s => !swIdsToRemove.has(s.id)));
-    }, 700);
+      setParticles([]);
+      setShockwaves([]);
+    }, 450);
   }, []);
 
   // Initialize board from level configuration
@@ -573,7 +568,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       b = dropResult.board;
       setBoard([...b]);
       sound.playDrop();
-      await new Promise(r => setTimeout(r, 240));
+      await new Promise(r => setTimeout(r, 110));
 
       const { matches, matchGroups } = findGridMatches(b);
       if (matches.length === 0) break;
@@ -588,7 +583,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
         color: b[m.y]?.[m.x]?.candy?.color || 'yellow',
       }));
       setHighlightedMatches(cascadeCandiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 380);
+      setTimeout(() => setHighlightedMatches([]), 200);
 
       // Play satisfying multi-layer popping sound
       sound.playPop(1 + cascadeCount * 0.18, matches.length);
@@ -671,7 +666,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       b = nextBoard;
       setBoard([...b]);
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(r => setTimeout(r, 110));
     }
 
     setScore(prev => prev + totalAddedScore);
@@ -717,7 +712,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     swappedBoard[c2.y][c2.x].candy = tempCandy;
 
     setBoard([...swappedBoard]);
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 120));
 
     // 2. Check for Color Bomb Specials
     const isC1ColorBomb = cell1.candy.color === 'rainbow' || cell1.candy.special === 'color-bomb';
@@ -879,7 +874,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       addScorePopup(c2.x, c2.y, addedScore, `+${addedScore}`);
       setBoard([...nextBoard]);
-      await new Promise(r => setTimeout(r, 220));
+      await new Promise(r => setTimeout(r, 120));
       await processCascades(nextBoard, addedScore, addedProgress, 1);
       return true;
     }
@@ -887,7 +882,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     // 4. Invalid Move: Swap back smoothly!
     sound.playClick();
     haptics.error();
-    await new Promise(r => setTimeout(r, 160));
+    await new Promise(r => setTimeout(r, 100));
     setBoard([...board]); // Reset back to original
     setIsProcessing(false);
     isSwappingRef.current = false;

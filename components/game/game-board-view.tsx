@@ -286,19 +286,9 @@ export function GameBoardView({
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
         >
-          {/* Dynamic Glowing SVG Connecting Trail Ribbon */}
+          {/* Dynamic Glowing SVG Connecting Trail Ribbon (Hardware-accelerated layered path) */}
           {trail.length >= 2 && (
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-25 overflow-visible">
-              <defs>
-                <filter id="trailGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
               {/* Outer Glow Halo */}
               <path
                 d={generateTrailSvgPath()}
@@ -307,8 +297,7 @@ export function GameBoardView({
                 strokeWidth={isTrailValidMatch ? '14' : '10'}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                opacity={isTrailValidMatch ? '0.65' : '0.4'}
-                filter="url(#trailGlow)"
+                opacity={isTrailValidMatch ? '0.7' : '0.4'}
               />
 
               {/* Core Energy Ribbon */}
@@ -320,7 +309,6 @@ export function GameBoardView({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeDasharray={isTrailValidMatch ? 'none' : '6 6'}
-                className={isTrailValidMatch ? 'animate-pulse' : ''}
               />
 
               {/* Bright Spine Highlight */}
@@ -331,7 +319,7 @@ export function GameBoardView({
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                opacity="0.9"
+                opacity="0.95"
               />
             </svg>
           )}
@@ -339,30 +327,18 @@ export function GameBoardView({
           {/* Hint Trail Sparkling Energy Beam (When player is idle for 5s or tapped Hint button) */}
           {hintTrail && hintTrail.length >= 3 && !isDraggingTrail && (
             <svg className="absolute inset-0 w-full h-full pointer-events-none z-24 overflow-visible">
-              <defs>
-                <filter id="hintGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feGaussianBlur stdDeviation="5" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
               {/* Golden Ambient Halo */}
               <path
                 d={generateHintSvgPath()}
                 fill="none"
                 stroke="#F59E0B"
-                strokeWidth="16"
+                strokeWidth="14"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                opacity="0.65"
-                filter="url(#hintGlow)"
-                className="animate-pulse"
+                opacity="0.6"
               />
 
-              {/* Shimmering Animated Dashed Connector */}
+              {/* Shimmering Dashed Connector */}
               <path
                 d={generateHintSvgPath()}
                 fill="none"
@@ -408,27 +384,27 @@ export function GameBoardView({
                   <div
                     key={`cell-${x}-${y}`}
                     onPointerDown={(e) => handlePointerDown(x, y, e)}
-                    className={`w-10 h-10 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-all duration-150 ${
+                    className={`w-10 h-10 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-transform duration-150 will-change-transform ${
                       cell.jelly
                         ? 'bg-pink-400/45 border-2 border-pink-300/90 shadow-inner'
                         : 'bg-white/20 dark:bg-white/5 border border-white/30 dark:border-white/10'
                     } ${
                       isMatchHighlighted
-                        ? 'ring-4 ring-yellow-300 shadow-[0_0_30px_rgba(253,224,71,0.95)] scale-115 z-40 bg-yellow-300/40 animate-pulse'
+                        ? 'ring-4 ring-yellow-300 shadow-[0_0_24px_rgba(253,224,71,0.9)] scale-110 z-40 bg-yellow-300/40'
                         : isSelected
-                        ? 'ring-4 ring-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.9)] scale-110 z-35 bg-amber-300/30'
+                        ? 'ring-4 ring-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.9)] scale-105 z-35 bg-amber-300/30'
                         : ''
                     } ${
                       isInTrail 
-                        ? 'ring-4 ring-white shadow-xl scale-105 z-30' 
+                        ? 'ring-4 ring-white shadow-lg scale-105 z-30' 
                         : ''
                     } ${
                       isTrailHead && isTrailValidMatch
-                        ? 'ring-4 ring-yellow-300 shadow-2xl scale-110'
+                        ? 'ring-4 ring-yellow-300 shadow-xl scale-110'
                         : ''
                     } ${
                       isInHint && !isSelected && !isMatchHighlighted
-                        ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_18px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
+                        ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_15px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
                         : ''
                     } ${
                       isSwitchTarget ? 'ring-4 ring-cyan-400 scale-105 z-20' : ''
@@ -436,78 +412,40 @@ export function GameBoardView({
                   >
                     {/* Obstacle Layer */}
                     {cell.obstacle !== 'none' && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center">
+                      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
                         <ObstacleSvg type={cell.obstacle} size={42} />
                       </div>
                     )}
 
                     {/* Match Highlight Flash Star */}
                     {isMatchHighlighted && (
-                      <motion.div
-                        initial={{ scale: 0, rotate: -45 }}
-                        animate={{ scale: [0, 1.4, 0], rotate: [0, 90, 180] }}
-                        transition={{ duration: 0.35, ease: 'easeOut' }}
-                        className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none"
-                      >
-                        <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_12px_rgba(255,255,255,1)]" />
-                      </motion.div>
+                      <div className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none animate-ping">
+                        <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_10px_rgba(255,255,255,1)]" />
+                      </div>
                     )}
 
                     {/* Floating Hint Callout Beacon on First Hint Node */}
                     {isInHint && hintIndex === 0 && (
-                      <motion.div
-                        initial={{ scale: 0, y: 6 }}
-                        animate={{ scale: 1, y: 0 }}
-                        className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap animate-bounce"
-                      >
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap">
                         <Sparkles size={10} className="text-yellow-100" />
                         <span>HINT</span>
-                      </motion.div>
+                      </div>
                     )}
 
-                    {/* Framer Motion Animated Candy Layer */}
+                    {/* GPU-Accelerated Crisp Candy Layer */}
                     {cell.candy && (
-                      <motion.div
-                        layout
-                        layoutId={cell.candy.id}
-                        initial={cell.candy.isNew ? { scale: 0.2, opacity: 0, y: -45 } : false}
-                        animate={{ 
-                          scale: isMatchHighlighted ? [1, 1.25, 0.9, 1.15] : isSelected ? [1.1, 1.18, 1.1] : isInTrail ? 1.1 : isInHint ? [1, 1.16, 1] : 1, 
-                          rotate: isMatchHighlighted ? [0, -8, 8, 0] : isSelected ? [0, -3, 3, 0] : isInHint ? [0, -5, 5, 0] : 0,
-                          y: isSelected ? [0, -4, 0] : isInHint ? [0, -3, 0] : 0,
-                          opacity: 1, 
-                        }}
-                        exit={{ scale: 0.1, opacity: 0 }}
-                        transition={
+                      <div
+                        className={`w-full h-full flex items-center justify-center relative transition-transform duration-150 will-change-transform ${
                           isMatchHighlighted
-                            ? {
-                                type: 'tween',
-                                duration: 0.38,
-                                ease: 'easeOut',
-                              }
+                            ? 'scale-115'
                             : isSelected
-                            ? {
-                                repeat: Infinity,
-                                duration: 0.9,
-                                ease: 'easeInOut',
-                                type: 'tween',
-                              }
+                            ? 'scale-110'
+                            : isInTrail
+                            ? 'scale-105'
                             : isInHint
-                            ? {
-                                repeat: Infinity,
-                                duration: 1.1,
-                                ease: 'easeInOut',
-                                delay: hintIndex * 0.14,
-                                type: 'tween',
-                              }
-                            : {
-                                type: 'spring',
-                                stiffness: 420,
-                                damping: 26,
-                                mass: 0.7,
-                              }
-                        }
-                        className="w-full h-full flex items-center justify-center relative"
+                            ? 'scale-105'
+                            : 'scale-100'
+                        }`}
                       >
                         <CandySvg
                           color={cell.candy.color}
@@ -517,14 +455,12 @@ export function GameBoardView({
 
                         {/* Special Candy Ambient Aura */}
                         {cell.candy.special === 'color-bomb' && (
-                          <div className="absolute inset-0 rounded-full bg-amber-400/20 animate-ping pointer-events-none" />
+                          <div className="absolute inset-0 rounded-full bg-amber-400/25 animate-ping pointer-events-none" />
                         )}
 
                         {/* Sequential Connection Index Pill on Candies in Trail */}
                         {isInTrail && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
+                          <div
                             className={`absolute -top-1.5 -right-1.5 z-40 w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center text-[10px] font-black text-white ${
                               isTrailValidMatch
                                 ? 'bg-gradient-to-tr from-emerald-500 to-teal-400'
@@ -532,9 +468,9 @@ export function GameBoardView({
                             }`}
                           >
                             {trailIndex + 1}
-                          </motion.div>
+                          </div>
                         )}
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 );

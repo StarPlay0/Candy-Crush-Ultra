@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, Lock, Play, Mail, Heart, Settings, Plus, Trophy, Sparkles, Award } from 'lucide-react';
 import { getLevelConfig } from '@/lib/levels';
@@ -36,7 +36,21 @@ export function SagaMap({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Generate complete 199-level progression tree (from 199 down to 1)
-  const levels = Array.from({ length: TOTAL_SAGA_LEVELS }, (_, i) => i + 1).reverse();
+  const levels = useMemo(() => Array.from({ length: TOTAL_SAGA_LEVELS }, (_, i) => i + 1).reverse(), []);
+
+  // Calculate curve x-offset for the winding road
+  const getCurveX = (levelNum: number) => {
+    const angle = levelNum * 0.45;
+    return Math.sin(angle) * 110; // -110px to +110px from center
+  };
+
+  const roadSvgPath = useMemo(() => {
+    return levels.reduce((acc, lvl, idx) => {
+      const y = idx * 68 + 80;
+      const x = 200 + getCurveX(lvl);
+      return idx === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`;
+    }, '');
+  }, [levels]);
 
   // Scroll to active level on load
   useEffect(() => {
@@ -47,12 +61,6 @@ export function SagaMap({
       }
     }
   }, [unlockedLevel]);
-
-  // Calculate curve x-offset for the winding road
-  const getCurveX = (levelNum: number) => {
-    const angle = levelNum * 0.45;
-    return Math.sin(angle) * 110; // -110px to +110px from center
-  };
 
   const handleLevelClick = (lvlNum: number) => {
     if (!isLevelAccessible(lvlNum, unlockedLevel)) {
@@ -205,11 +213,7 @@ export function SagaMap({
               </pattern>
             </defs>
             <path
-              d={levels.reduce((acc, lvl, idx) => {
-                const y = idx * 68 + 80;
-                const x = 200 + getCurveX(lvl);
-                return idx === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`;
-              }, '')}
+              d={roadSvgPath}
               fill="none"
               stroke="#FFF1F2"
               strokeWidth="56"
@@ -218,11 +222,7 @@ export function SagaMap({
               className="drop-shadow-lg"
             />
             <path
-              d={levels.reduce((acc, lvl, idx) => {
-                const y = idx * 68 + 80;
-                const x = 200 + getCurveX(lvl);
-                return idx === 0 ? `M ${x} ${y}` : `${acc} L ${x} ${y}`;
-              }, '')}
+              d={roadSvgPath}
               fill="none"
               stroke="url(#candyStripeRoad)"
               strokeWidth="12"
