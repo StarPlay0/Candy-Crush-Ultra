@@ -186,6 +186,14 @@ export default function ComparisonPage() {
             Launch Game Now
           </Link>
         </div>
+
+        <div className="text-center mt-12 text-xs text-slate-500 flex flex-wrap items-center justify-center gap-4">
+          <span>© 2026 Candy Crush Ultra</span>
+          <span>•</span>
+          <a href="/privacy.html" className="text-slate-600 hover:text-slate-900 underline font-medium">Privacy Policy</a>
+          <span>•</span>
+          <a href="/manifest.json" className="text-slate-600 hover:text-slate-900 underline font-medium">PWA Manifest</a>
+        </div>
       </div>
     </div>
   );

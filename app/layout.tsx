@@ -5,7 +5,7 @@ import { SiteBottomNav } from '@/components/ui/site-bottom-nav';
 import { generateWebSiteSchema, generateVideoGameSchema } from '@/lib/schema';
 
 export const viewport: Viewport = {
-  themeColor: '#FF3B30',
+  themeColor: '#5BCEFA',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -61,6 +61,8 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#5BCEFA" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -77,9 +79,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <script dangerouslySetInnerHTML={{
           __html: `
             if ('serviceWorker' in navigator) {
-              window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').catch(function() {});
-              });
+              navigator.serviceWorker.register('/sw.js');
             }
           `
         }} />

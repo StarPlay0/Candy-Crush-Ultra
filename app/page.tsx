@@ -93,6 +93,7 @@ export default function Home() {
               <li><Link href="/faq" className="hover:text-white transition-colors">Game FAQs</Link></li>
               <li><Link href="/features/free-match-3-game" className="hover:text-white transition-colors">Free Match 3</Link></li>
               <li><Link href="/features/offline-puzzle-games" className="hover:text-white transition-colors">Offline Puzzles</Link></li>
+              <li><a href="/privacy.html" className="hover:text-pink-400 font-semibold text-pink-300 transition-colors">🔒 Privacy Policy</a></li>
             </ul>
           </div>
 
@@ -115,6 +116,17 @@ export default function Home() {
               <li><span className="text-emerald-400">✓ 100% Offline Capable</span></li>
               <li><span className="text-emerald-400">✓ 199 Handcrafted Levels</span></li>
             </ul>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© 2026 Candy Crush Ultra. Built with Progressive Web App & Offline Architecture.</p>
+          <div className="flex items-center gap-4">
+            <a href="/privacy.html" className="text-slate-400 hover:text-white underline transition-colors">Privacy Policy</a>
+            <span>•</span>
+            <a href="/manifest.json" className="text-slate-400 hover:text-white underline transition-colors">PWA Manifest</a>
+            <span>•</span>
+            <span className="text-emerald-400">Google Play Console Ready</span>
           </div>
         </div>
       </footer>
