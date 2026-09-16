@@ -1,58 +1,40 @@
 {
   "id": "/",
-  "name": "Candy Crush Ultra",
-  "short_name": "Candy Crush",
+  "name": "Candy Ultra",
+  "short_name": "Candy Ultra",
   "description": "A premium, completely free, local-first Match-3 puzzle game with 199 handcrafted levels, zero ads, and instant offline performance.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#5BCEFA",
-  "theme_color": "#5BCEFA",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><defs><linearGradient id=\"bg\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" stop-color=\"%234f46e5\"/><stop offset=\"100%\" stop-color=\"%2306b6d4\"/></linearGradient><radialGradient id=\"candy\" cx=\"35%\" cy=\"35%\" r=\"65%\"><stop offset=\"0%\" stop-color=\"%23ff76c8\"/><stop offset=\"50%\" stop-color=\"%23ec4899\"/><stop offset=\"100%\" stop-color=\"%23be185d\"/></radialGradient></defs><rect width=\"512\" height=\"512\" rx=\"112\" fill=\"url(%23bg)\"/><circle cx=\"256\" cy=\"256\" r=\"140\" fill=\"url(%23candy)\" stroke=\"%23ffffff\" stroke-width=\"12\"/><path d=\"M190 190 Q256 140 322 190 Q372 256 322 322 Q256 372 190 322 Q140 256 190 190 Z\" fill=\"none\" stroke=\"%23ffffff\" stroke-width=\"10\" stroke-linecap=\"round\" opacity=\"0.8\"/><circle cx=\"215\" cy=\"215\" r=\"28\" fill=\"%23ffffff\" opacity=\"0.9\"/><polygon points=\"360,140 370,165 395,175 370,185 360,210 350,185 325,175 350,165\" fill=\"%23fde047\"/><polygon points=\"140,340 148,360 168,368 148,376 140,396 132,376 112,368 132,360\" fill=\"%23fde047\"/></svg>",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icon.svg",
-      "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><defs><linearGradient id=\"bg\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" stop-color=\"%234f46e5\"/><stop offset=\"100%\" stop-color=\"%2306b6d4\"/></linearGradient><radialGradient id=\"candy\" cx=\"35%\" cy=\"35%\" r=\"65%\"><stop offset=\"0%\" stop-color=\"%23ff76c8\"/><stop offset=\"50%\" stop-color=\"%23ec4899\"/><stop offset=\"100%\" stop-color=\"%23be185d\"/></radialGradient></defs><rect width=\"512\" height=\"512\" rx=\"112\" fill=\"url(%23bg)\"/><circle cx=\"256\" cy=\"256\" r=\"140\" fill=\"url(%23candy)\" stroke=\"%23ffffff\" stroke-width=\"12\"/><path d=\"M190 190 Q256 140 322 190 Q372 256 322 322 Q256 372 190 322 Q140 256 190 190 Z\" fill=\"none\" stroke=\"%23ffffff\" stroke-width=\"10\" stroke-linecap=\"round\" opacity=\"0.8\"/><circle cx=\"215\" cy=\"215\" r=\"28\" fill=\"%23ffffff\" opacity=\"0.9\"/><polygon points=\"360,140 370,165 395,175 370,185 360,210 350,185 325,175 350,165\" fill=\"%23fde047\"/><polygon points=\"140,340 148,360 168,368 148,376 140,396 132,376 112,368 132,360\" fill=\"%23fde047\"/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
     {
-      "src": "/screenshot-mobile.png",
+      "src": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1920\" width=\"1080\" height=\"1920\"><defs><linearGradient id=\"mbg\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\"><stop offset=\"0%\" stop-color=\"%234f46e5\"/><stop offset=\"100%\" stop-color=\"%230284c7\"/></linearGradient></defs><rect width=\"1080\" height=\"1920\" fill=\"url(%23mbg)\"/><rect x=\"60\" y=\"80\" width=\"960\" height=\"180\" rx=\"36\" fill=\"%23ffffff\" fill-opacity=\"0.2\"/><text x=\"540\" y=\"190\" fill=\"%23ffffff\" font-size=\"64\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">CANDY ULTRA • LEVEL 42</text><rect x=\"60\" y=\"320\" width=\"960\" height=\"1200\" rx=\"48\" fill=\"%23ffffff\" fill-opacity=\"0.95\"/><circle cx=\"240\" cy=\"520\" r=\"60\" fill=\"%23ef4444\"/><circle cx=\"440\" cy=\"520\" r=\"60\" fill=\"%233b82f6\"/><circle cx=\"640\" cy=\"520\" r=\"60\" fill=\"%2310b981\"/><circle cx=\"840\" cy=\"520\" r=\"60\" fill=\"%23f59e0b\"/><circle cx=\"240\" cy=\"720\" r=\"60\" fill=\"%238b5cf6\"/><circle cx=\"440\" cy=\"720\" r=\"60\" fill=\"%23ec4899\"/><circle cx=\"640\" cy=\"720\" r=\"60\" fill=\"%23ef4444\"/><circle cx=\"840\" cy=\"720\" r=\"60\" fill=\"%233b82f6\"/><circle cx=\"240\" cy=\"920\" r=\"60\" fill=\"%2310b981\"/><circle cx=\"440\" cy=\"920\" r=\"60\" fill=\"%23f59e0b\"/><circle cx=\"640\" cy=\"920\" r=\"60\" fill=\"%238b5cf6\"/><circle cx=\"840\" cy=\"920\" r=\"60\" fill=\"%23ec4899\"/><circle cx=\"240\" cy=\"1120\" r=\"60\" fill=\"%233b82f6\"/><circle cx=\"440\" cy=\"1120\" r=\"60\" fill=\"%23ef4444\"/><circle cx=\"640\" cy=\"1120\" r=\"60\" fill=\"%23f59e0b\"/><circle cx=\"840\" cy=\"1120\" r=\"60\" fill=\"%2310b981\"/><circle cx=\"240\" cy=\"1320\" r=\"60\" fill=\"%23ec4899\"/><circle cx=\"440\" cy=\"1320\" r=\"60\" fill=\"%238b5cf6\"/><circle cx=\"640\" cy=\"1320\" r=\"60\" fill=\"%233b82f6\"/><circle cx=\"840\" cy=\"1320\" r=\"60\" fill=\"%23ef4444\"/><rect x=\"60\" y=\"1600\" width=\"960\" height=\"180\" rx=\"36\" fill=\"%23ffffff\" fill-opacity=\"0.2\"/><text x=\"540\" y=\"1710\" fill=\"%23ffffff\" font-size=\"52\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">SCORE: 128,450 ★★★</text></svg>",
       "sizes": "1080x1920",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "narrow",
       "label": "Mobile App View"
     },
     {
-      "src": "/screenshot-desktop.png",
+      "src": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1920 1080\" width=\"1920\" height=\"1080\"><defs><linearGradient id=\"dbg\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" stop-color=\"%234f46e5\"/><stop offset=\"100%\" stop-color=\"%230ea5e9\"/></linearGradient></defs><rect width=\"1920\" height=\"1080\" fill=\"url(%23dbg)\"/><rect x=\"100\" y=\"80\" width=\"400\" height=\"920\" rx=\"32\" fill=\"%23ffffff\" fill-opacity=\"0.95\"/><text x=\"300\" y=\"160\" fill=\"%234f46e5\" font-size=\"36\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">CANDY ULTRA</text><text x=\"300\" y=\"240\" fill=\"%2364748b\" font-size=\"22\" font-family=\"sans-serif\" text-anchor=\"middle\">Level 42 of 199</text><text x=\"300\" y=\"320\" fill=\"%23f59e0b\" font-size=\"32\" font-family=\"sans-serif\" text-anchor=\"middle\">★★★ 128,450</text><rect x=\"140\" y=\"400\" width=\"320\" height=\"80\" rx=\"20\" fill=\"%234f46e5\"/><text x=\"300\" y=\"450\" fill=\"%23ffffff\" font-size=\"24\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">BOOSTERS (3)</text><rect x=\"560\" y=\"80\" width=\"920\" height=\"920\" rx=\"32\" fill=\"%23ffffff\" fill-opacity=\"0.95\"/><circle cx=\"720\" cy=\"240\" r=\"45\" fill=\"%23ef4444\"/><circle cx=\"860\" cy=\"240\" r=\"45\" fill=\"%233b82f6\"/><circle cx=\"1000\" cy=\"240\" r=\"45\" fill=\"%2310b981\"/><circle cx=\"1140\" cy=\"240\" r=\"45\" fill=\"%23f59e0b\"/><circle cx=\"1280\" cy=\"240\" r=\"45\" fill=\"%238b5cf6\"/><circle cx=\"720\" cy=\"380\" r=\"45\" fill=\"%23ec4899\"/><circle cx=\"860\" cy=\"380\" r=\"45\" fill=\"%23ef4444\"/><circle cx=\"1000\" cy=\"380\" r=\"45\" fill=\"%233b82f6\"/><circle cx=\"1140\" cy=\"380\" r=\"45\" fill=\"%2310b981\"/><circle cx=\"1280\" cy=\"380\" r=\"45\" fill=\"%23f59e0b\"/><circle cx=\"720\" cy=\"520\" r=\"45\" fill=\"%238b5cf6\"/><circle cx=\"860\" cy=\"520\" r=\"45\" fill=\"%23ec4899\"/><circle cx=\"1000\" cy=\"520\" r=\"45\" fill=\"%23ef4444\"/><circle cx=\"1140\" cy=\"520\" r=\"45\" fill=\"%233b82f6\"/><circle cx=\"1280\" cy=\"520\" r=\"45\" fill=\"%2310b981\"/><circle cx=\"720\" cy=\"660\" r=\"45\" fill=\"%23f59e0b\"/><circle cx=\"860\" cy=\"660\" r=\"45\" fill=\"%238b5cf6\"/><circle cx=\"1000\" cy=\"660\" r=\"45\" fill=\"%23ec4899\"/><circle cx=\"1140\" cy=\"660\" r=\"45\" fill=\"%23ef4444\"/><circle cx=\"1280\" cy=\"660\" r=\"45\" fill=\"%233b82f6\"/><circle cx=\"720\" cy=\"800\" r=\"45\" fill=\"%2310b981\"/><circle cx=\"860\" cy=\"800\" r=\"45\" fill=\"%23f59e0b\"/><circle cx=\"1000\" cy=\"800\" r=\"45\" fill=\"%238b5cf6\"/><circle cx=\"1140\" cy=\"800\" r=\"45\" fill=\"%23ec4899\"/><circle cx=\"1280\" cy=\"800\" r=\"45\" fill=\"%23ef4444\"/><rect x=\"1520\" y=\"80\" width=\"300\" height=\"920\" rx=\"32\" fill=\"%23ffffff\" fill-opacity=\"0.95\"/><text x=\"1670\" y=\"160\" fill=\"%234f46e5\" font-size=\"28\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">LEADERBOARD</text><text x=\"1670\" y=\"240\" fill=\"%230f172a\" font-size=\"20\" font-family=\"sans-serif\" text-anchor=\"middle\">1. CandyKing - 340k</text><text x=\"1670\" y=\"300\" fill=\"%230f172a\" font-size=\"20\" font-family=\"sans-serif\" text-anchor=\"middle\">2. SweetMaster - 290k</text><text x=\"1670\" y=\"360\" fill=\"%230f172a\" font-size=\"20\" font-family=\"sans-serif\" text-anchor=\"middle\">3. You - 128k</text></svg>",
       "sizes": "1920x1080",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "wide",
       "label": "Desktop App View"
     }
