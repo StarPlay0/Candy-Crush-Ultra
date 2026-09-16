@@ -163,6 +163,11 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
   const lastActivityRef = useRef<number>(0);
   const dragStartRef = useRef<{ clientX: number; clientY: number; cellX: number; cellY: number } | null>(null);
   const isSwappingRef = useRef(false);
+  const boardRef = useRef(board);
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
+  const particleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Spawn visual candy crush particles & shockwaves with lightweight footprint
   const spawnCrushParticles = useCallback((nodes: { x: number; y: number; color?: CandyColor | 'rainbow' }[]) => {
@@ -208,7 +213,8 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     setParticles(prev => [...prev.slice(-4), ...newParticles].slice(0, 8));
     setShockwaves(prev => [...prev.slice(-1), ...newShockwaves].slice(0, 2));
 
-    setTimeout(() => {
+    if (particleTimeoutRef.current) clearTimeout(particleTimeoutRef.current);
+    particleTimeoutRef.current = setTimeout(() => {
       setParticles([]);
       setShockwaves([]);
     }, 450);
@@ -243,6 +249,18 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     lastActivityRef.current = Date.now();
     isSwappingRef.current = false;
   }, [config]);
+
+  // Re-initialize board when level id changes (guarded & asynchronous to prevent cascading render warning)
+  const prevConfigIdRef = useRef(config.id);
+  useEffect(() => {
+    if (prevConfigIdRef.current !== config.id) {
+      prevConfigIdRef.current = config.id;
+      const timer = setTimeout(() => {
+        initBoard();
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [config.id, initBoard]);
 
   // Find natural automatic matches (for classic match-3 lines & cascades)
   const findGridMatches = useCallback((b: Cell[][]): {
@@ -433,7 +451,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       const idleDuration = Date.now() - lastActivityRef.current;
       if (idleDuration >= 5000) {
-        const potential = findPotentialMove(board);
+        const potential = findPotentialMove(boardRef.current);
         if (potential && potential.length >= 2) {
           setHintTrail(potential);
           sound.playHint();
@@ -451,7 +469,6 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     isDraggingTrail,
     moves,
     hintTrail,
-    board,
     findPotentialMove,
   ]);
 
@@ -562,13 +579,16 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     let cascadeCount = initialMultiplier;
     let totalAddedScore = currentAddedScore;
     let totalAddedProgress = currentAddedProgress;
+    let maxSafetyRounds = 15;
 
-    while (true) {
+    while (maxSafetyRounds-- > 0) {
       const dropResult = dropCandies(b);
-      b = dropResult.board;
-      setBoard([...b]);
-      sound.playDrop();
-      await new Promise(r => setTimeout(r, 60));
+      if (dropResult.droppedCount > 0) {
+        b = dropResult.board;
+        setBoard([...b]);
+        sound.playDrop();
+        await new Promise(r => setTimeout(r, 45));
+      }
 
       const { matches, matchGroups } = findGridMatches(b);
       if (matches.length === 0) break;
@@ -583,7 +603,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
         color: b[m.y]?.[m.x]?.candy?.color || 'yellow',
       }));
       setHighlightedMatches(cascadeCandiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 120);
+      setTimeout(() => setHighlightedMatches([]), 100);
 
       // Play satisfying multi-layer popping sound
       sound.playPop(1 + cascadeCount * 0.18, matches.length);
@@ -666,7 +686,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       b = nextBoard;
       setBoard([...b]);
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 45));
     }
 
     setScore(prev => prev + totalAddedScore);
@@ -712,7 +732,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     swappedBoard[c2.y][c2.x].candy = tempCandy;
 
     setBoard([...swappedBoard]);
-    await new Promise(r => setTimeout(r, 65));
+    await new Promise(r => setTimeout(r, 45));
 
     // 2. Check for Color Bomb Specials
     const isC1ColorBomb = cell1.candy.color === 'rainbow' || cell1.candy.special === 'color-bomb';
@@ -1035,37 +1055,34 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
   // Pointer Move: Detect Swipe Direction (Left/Right/Up/Down) or Extend Chain Trail
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (isProcessing || isPaused || isWon || isGameOver || isSwappingRef.current) return;
+    if (!dragStartRef.current || isProcessing || isPaused || isWon || isGameOver || isSwappingRef.current) return;
     lastActivityRef.current = Date.now();
 
     // 1. Swipe Direction Detection (Candy Crush Drag to Move / Swap)
-    if (dragStartRef.current) {
-      const deltaX = e.clientX - dragStartRef.current.clientX;
-      const deltaY = e.clientY - dragStartRef.current.clientY;
-      const absX = Math.abs(deltaX);
-      const absY = Math.abs(deltaY);
-      const threshold = 8; // 8px swipe threshold for instant responsive tactile drag
+    const deltaX = e.clientX - dragStartRef.current.clientX;
+    const deltaY = e.clientY - dragStartRef.current.clientY;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+    const threshold = 8; // 8px swipe threshold for instant responsive tactile drag
 
-      if (absX >= threshold || absY >= threshold) {
-        const startX = dragStartRef.current.cellX;
-        const startY = dragStartRef.current.cellY;
-        let targetX = startX;
-        let targetY = startY;
+    if (absX >= threshold || absY >= threshold) {
+      const startX = dragStartRef.current.cellX;
+      const startY = dragStartRef.current.cellY;
+      let targetX = startX;
+      let targetY = startY;
 
-        if (absX > absY) {
-          targetX = deltaX > 0 ? startX + 1 : startX - 1;
-        } else {
-          targetY = deltaY > 0 ? startY + 1 : startY - 1;
-        }
+      if (absX > absY) {
+        targetX = deltaX > 0 ? startX + 1 : startX - 1;
+      } else {
+        targetY = deltaY > 0 ? startY + 1 : startY - 1;
+      }
 
-        dragStartRef.current = null;
-        setIsDraggingTrail(false);
-        setTrail([]);
+      dragStartRef.current = null;
+      setIsDraggingTrail(false);
+      setTrail([]);
 
-        if (targetX >= 0 && targetX < config.gridWidth && targetY >= 0 && targetY < config.gridHeight) {
-          attemptSwap({ x: startX, y: startY }, { x: targetX, y: targetY });
-        }
-        return;
+      if (targetX >= 0 && targetX < config.gridWidth && targetY >= 0 && targetY < config.gridHeight) {
+        attemptSwap({ x: startX, y: startY }, { x: targetX, y: targetY });
       }
     }
   };

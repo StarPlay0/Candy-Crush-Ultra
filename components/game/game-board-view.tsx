@@ -35,6 +35,132 @@ const TRAIL_COLOR_MAP: Record<CandyColor | 'rainbow', { stroke: string; glow: st
   rainbow: { stroke: '#EC4899', glow: '#F472B6', text: 'text-pink-400' },
 };
 
+interface BoardCellProps {
+  cell: import('@/lib/game-types').Cell;
+  x: number;
+  y: number;
+  isSelected: boolean;
+  isMatchHighlighted: boolean;
+  isInTrail: boolean;
+  trailIndex: number;
+  isTrailValidMatch: boolean;
+  isTrailHead: boolean;
+  isSwitchTarget: boolean;
+  isInHint: boolean;
+  hintIndex: number;
+  onPointerDown: (x: number, y: number, e: React.PointerEvent) => void;
+}
+
+const BoardCell = React.memo(function BoardCell({
+  cell,
+  x,
+  y,
+  isSelected,
+  isMatchHighlighted,
+  isInTrail,
+  trailIndex,
+  isTrailValidMatch,
+  isTrailHead,
+  isSwitchTarget,
+  isInHint,
+  hintIndex,
+  onPointerDown,
+}: BoardCellProps) {
+  return (
+    <div
+      onPointerDown={(e) => onPointerDown(x, y, e)}
+      className={`w-10 h-10 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-transform duration-150 ${
+        cell.jelly
+          ? 'bg-pink-400/45 border-2 border-pink-300/90 shadow-inner'
+          : 'bg-white/20 dark:bg-white/5 border border-white/30 dark:border-white/10'
+      } ${
+        isMatchHighlighted
+          ? 'ring-4 ring-yellow-300 shadow-[0_0_24px_rgba(253,224,71,0.9)] scale-110 z-40 bg-yellow-300/40'
+          : isSelected
+          ? 'ring-4 ring-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.9)] scale-105 z-35 bg-amber-300/30'
+          : ''
+      } ${
+        isInTrail 
+          ? 'ring-4 ring-white shadow-lg scale-105 z-30' 
+          : ''
+      } ${
+        isTrailHead && isTrailValidMatch
+          ? 'ring-4 ring-yellow-300 shadow-xl scale-110'
+          : ''
+      } ${
+        isInHint && !isSelected && !isMatchHighlighted
+          ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_15px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
+          : ''
+      } ${
+        isSwitchTarget ? 'ring-4 ring-cyan-400 scale-105 z-20' : ''
+      }`}
+    >
+      {/* Obstacle Layer */}
+      {cell.obstacle !== 'none' && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <ObstacleSvg type={cell.obstacle} size={42} />
+        </div>
+      )}
+
+      {/* Match Highlight Flash Star */}
+      {isMatchHighlighted && (
+        <div className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none animate-ping">
+          <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_10px_rgba(255,255,255,1)]" />
+        </div>
+      )}
+
+      {/* Floating Hint Callout Beacon on First Hint Node */}
+      {isInHint && hintIndex === 0 && (
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap">
+          <Sparkles size={10} className="text-yellow-100" />
+          <span>HINT</span>
+        </div>
+      )}
+
+      {/* Crisp Candy Layer */}
+      {cell.candy && (
+        <div
+          className={`w-full h-full flex items-center justify-center relative transition-transform duration-150 ${
+            isMatchHighlighted
+              ? 'scale-115'
+              : isSelected
+              ? 'scale-110'
+              : isInTrail
+              ? 'scale-105'
+              : isInHint
+              ? 'scale-105'
+              : 'scale-100'
+          }`}
+        >
+          <CandySvg
+            color={cell.candy.color}
+            special={cell.candy.special}
+            size={46}
+          />
+
+          {/* Special Candy Ambient Aura */}
+          {cell.candy.special === 'color-bomb' && (
+            <div className="absolute inset-0 rounded-full bg-amber-400/25 animate-ping pointer-events-none" />
+          )}
+
+          {/* Sequential Connection Index Pill on Candies in Trail */}
+          {isInTrail && (
+            <div
+              className={`absolute -top-1.5 -right-1.5 z-40 w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center text-[10px] font-black text-white ${
+                isTrailValidMatch
+                  ? 'bg-gradient-to-tr from-emerald-500 to-teal-400'
+                  : 'bg-amber-500'
+              }`}
+            >
+              {trailIndex + 1}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+});
+
 export function GameBoardView({
   levelConfig,
   lives,
@@ -81,6 +207,27 @@ export function GameBoardView({
 
   const [isMuted, setIsMuted] = useState(sound.isMuted);
   const [reactionText, setReactionText] = useState<string | null>(null);
+
+  // Fast O(1) lookups to avoid O(N) scans on every cell re-render
+  const highlightedSet = React.useMemo(() => {
+    const set = new Set<string>();
+    highlightedMatches.forEach(m => set.add(`${m.x},${m.y}`));
+    return set;
+  }, [highlightedMatches]);
+
+  const trailMap = React.useMemo(() => {
+    const map = new Map<string, number>();
+    trail.forEach((t, idx) => map.set(`${t.x},${t.y}`, idx));
+    return map;
+  }, [trail]);
+
+  const hintMap = React.useMemo(() => {
+    const map = new Map<string, number>();
+    if (hintTrail) {
+      hintTrail.forEach((h, idx) => map.set(`${h.x},${h.y}`, idx));
+    }
+    return map;
+  }, [hintTrail]);
 
   // Global Pointer Up listener to ensure no stuck pointer states
   useEffect(() => {
@@ -281,7 +428,7 @@ export function GameBoardView({
 
         <div 
           ref={boardContainerRef}
-          className="relative bg-slate-900/35 dark:bg-slate-950/60 p-2.5 sm:p-3.5 rounded-3xl border-4 border-white/50 dark:border-indigo-800/40 shadow-2xl backdrop-blur-md touch-none select-none"
+          className="relative bg-slate-900/80 dark:bg-slate-950/85 p-2.5 sm:p-3.5 rounded-3xl border-4 border-white/50 dark:border-indigo-800/40 shadow-2xl touch-none select-none"
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
@@ -371,108 +518,33 @@ export function GameBoardView({
           >
             {board.map((row, y) =>
               row.map((cell, x) => {
+                const key = `${x},${y}`;
                 const isSelected = selectedCell?.x === x && selectedCell?.y === y;
-                const isMatchHighlighted = highlightedMatches.some(m => m.x === x && m.y === y);
-                const trailIndex = trail.findIndex(t => t.x === x && t.y === y);
-                const isInTrail = trailIndex !== -1;
-                const isTrailHead = isInTrail && trailIndex === trail.length - 1;
+                const isMatchHighlighted = highlightedSet.has(key);
+                const trailIdx = trailMap.get(key) ?? -1;
+                const isInTrail = trailIdx !== -1;
+                const isTrailHead = isInTrail && trailIdx === trail.length - 1;
                 const isSwitchTarget = switchFirstCell?.x === x && switchFirstCell?.y === y;
-                const hintIndex = hintTrail ? hintTrail.findIndex(h => h.x === x && h.y === y) : -1;
-                const isInHint = hintIndex !== -1 && !isInTrail;
+                const hintIdx = hintMap.get(key) ?? -1;
+                const isInHint = hintIdx !== -1 && !isInTrail;
 
                 return (
-                  <div
+                  <BoardCell
                     key={`cell-${x}-${y}`}
-                    onPointerDown={(e) => handlePointerDown(x, y, e)}
-                    className={`w-10 h-10 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-transform duration-150 will-change-transform ${
-                      cell.jelly
-                        ? 'bg-pink-400/45 border-2 border-pink-300/90 shadow-inner'
-                        : 'bg-white/20 dark:bg-white/5 border border-white/30 dark:border-white/10'
-                    } ${
-                      isMatchHighlighted
-                        ? 'ring-4 ring-yellow-300 shadow-[0_0_24px_rgba(253,224,71,0.9)] scale-110 z-40 bg-yellow-300/40'
-                        : isSelected
-                        ? 'ring-4 ring-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.9)] scale-105 z-35 bg-amber-300/30'
-                        : ''
-                    } ${
-                      isInTrail 
-                        ? 'ring-4 ring-white shadow-lg scale-105 z-30' 
-                        : ''
-                    } ${
-                      isTrailHead && isTrailValidMatch
-                        ? 'ring-4 ring-yellow-300 shadow-xl scale-110'
-                        : ''
-                    } ${
-                      isInHint && !isSelected && !isMatchHighlighted
-                        ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_15px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
-                        : ''
-                    } ${
-                      isSwitchTarget ? 'ring-4 ring-cyan-400 scale-105 z-20' : ''
-                    }`}
-                  >
-                    {/* Obstacle Layer */}
-                    {cell.obstacle !== 'none' && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <ObstacleSvg type={cell.obstacle} size={42} />
-                      </div>
-                    )}
-
-                    {/* Match Highlight Flash Star */}
-                    {isMatchHighlighted && (
-                      <div className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none animate-ping">
-                        <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_10px_rgba(255,255,255,1)]" />
-                      </div>
-                    )}
-
-                    {/* Floating Hint Callout Beacon on First Hint Node */}
-                    {isInHint && hintIndex === 0 && (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap">
-                        <Sparkles size={10} className="text-yellow-100" />
-                        <span>HINT</span>
-                      </div>
-                    )}
-
-                    {/* GPU-Accelerated Crisp Candy Layer */}
-                    {cell.candy && (
-                      <div
-                        className={`w-full h-full flex items-center justify-center relative transition-transform duration-150 will-change-transform ${
-                          isMatchHighlighted
-                            ? 'scale-115'
-                            : isSelected
-                            ? 'scale-110'
-                            : isInTrail
-                            ? 'scale-105'
-                            : isInHint
-                            ? 'scale-105'
-                            : 'scale-100'
-                        }`}
-                      >
-                        <CandySvg
-                          color={cell.candy.color}
-                          special={cell.candy.special}
-                          size={46}
-                        />
-
-                        {/* Special Candy Ambient Aura */}
-                        {cell.candy.special === 'color-bomb' && (
-                          <div className="absolute inset-0 rounded-full bg-amber-400/25 animate-ping pointer-events-none" />
-                        )}
-
-                        {/* Sequential Connection Index Pill on Candies in Trail */}
-                        {isInTrail && (
-                          <div
-                            className={`absolute -top-1.5 -right-1.5 z-40 w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center text-[10px] font-black text-white ${
-                              isTrailValidMatch
-                                ? 'bg-gradient-to-tr from-emerald-500 to-teal-400'
-                                : 'bg-amber-500'
-                            }`}
-                          >
-                            {trailIndex + 1}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    cell={cell}
+                    x={x}
+                    y={y}
+                    isSelected={isSelected}
+                    isMatchHighlighted={isMatchHighlighted}
+                    isInTrail={isInTrail}
+                    trailIndex={trailIdx}
+                    isTrailValidMatch={isTrailValidMatch}
+                    isTrailHead={isTrailHead}
+                    isSwitchTarget={isSwitchTarget}
+                    isInHint={isInHint}
+                    hintIndex={hintIdx}
+                    onPointerDown={handlePointerDown}
+                  />
                 );
               })
             )}
