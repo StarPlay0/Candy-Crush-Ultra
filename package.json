@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node -e \"const fs=require('fs');['out','dist'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}));require('child_process').execSync('npx next build',{stdio:'inherit',env:{...process.env,NODE_ENV:'production'}});fs.cpSync('out','dist',{recursive:true});\"",
     "start": "next start",
     "lint": "eslint .",
     "clean": "next clean"
