@@ -5,7 +5,7 @@ import { SiteBottomNav } from '@/components/ui/site-bottom-nav';
 import { generateWebSiteSchema, generateVideoGameSchema } from '@/lib/schema';
 
 export const viewport: Viewport = {
-  themeColor: '#0d0714',
+  themeColor: '#FF3B30',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -62,7 +62,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#0d0714" />
+        <meta name="theme-color" content="#FF3B30" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}

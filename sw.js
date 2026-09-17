@@ -1,9 +1,11 @@
-const CACHE_NAME = 'candy-ultra-v1';
+const CACHE_NAME = 'candy-ultra-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
   '/privacy.html',
+  '/icon.svg',
+  '/icon-192.png',
   '/icon-512.png',
   '/screenshot-mobile.png',
   '/screenshot-desktop.png'
