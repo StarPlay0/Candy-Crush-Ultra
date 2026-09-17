@@ -4,42 +4,37 @@ export const dynamic = 'force-static';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: '/',
     name: 'Candy Ultra',
     short_name: 'Candy Ultra',
     description: 'A premium, fully offline, local-first Match-3 puzzle game.',
     start_url: '/',
     display: 'standalone',
-    orientation: 'portrait',
-    background_color: '#ffffff',
-    theme_color: '#4f46e5',
+    orientation: 'any',
+    background_color: '#0d0714',
+    theme_color: '#0d0714',
     icons: [
       {
-        src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%234f46e5'/><circle cx='96' cy='96' r='60' fill='%23ffffff'/></svg>",
-        sizes: '192x192',
-        type: 'image/svg+xml',
-        purpose: 'any maskable' as any,
-      },
-      {
-        src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%234f46e5'/><circle cx='256' cy='256' r='160' fill='%23ffffff'/></svg>",
+        src: '/icon-512.png',
         sizes: '512x512',
-        type: 'image/svg+xml',
+        type: 'image/png',
         purpose: 'any maskable' as any,
       },
     ],
     screenshots: [
       {
-        src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720'><rect width='1280' height='720' fill='%234f46e5'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='48'>Candy Ultra Desktop</text></svg>",
-        sizes: '1280x720',
-        type: 'image/svg+xml',
-        form_factor: 'wide',
-        label: 'Candy Ultra Desktop Overview',
+        src: '/screenshot-mobile.png',
+        sizes: '1080x1920',
+        type: 'image/png',
+        form_factor: 'narrow',
+        label: 'Mobile App View',
       },
       {
-        src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 1280'><rect width='720' height='1280' fill='%234f46e5'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='48'>Candy Ultra Mobile</text></svg>",
-        sizes: '720x1280',
-        type: 'image/svg+xml',
-        form_factor: 'narrow',
-        label: 'Candy Ultra Mobile Gameplay',
+        src: '/screenshot-desktop.png',
+        sizes: '1920x1080',
+        type: 'image/png',
+        form_factor: 'wide',
+        label: 'Desktop App View',
       },
     ],
   };

@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.candycrusherultra.app",
+      "package_name": "dev.pages.candycrusherultra",
       "sha256_cert_fingerprints": [
-        "14:6D:E9:7C:0F:86:02:AE:82:E6:4E:6A:AE:45:51:8A:E8:22:98:8C:1A:3A:33:42:E6:B3:C6:68:A4:EE:E0:42"
+        "00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
       ]
     }
   }
