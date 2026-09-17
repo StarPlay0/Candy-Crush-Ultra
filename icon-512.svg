@@ -1,0 +1,43 @@
+
+  <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FF3388" />
+        <stop offset="50%" stop-color="#FF1493" />
+        <stop offset="100%" stop-color="#7928CA" />
+      </linearGradient>
+      <linearGradient id="candyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFE066" />
+        <stop offset="100%" stop-color="#FF5E3A" />
+      </linearGradient>
+      <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.35" />
+      </filter>
+      <filter id="innerGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" />
+      </filter>
+    </defs>
+    <!-- Background rounded square with safe padding -->
+    <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#bgGrad)" filter="url(#shadow)" stroke="#FFFFFF" stroke-width="8" />
+    
+    <!-- Central Sweet Candy Jewel -->
+    <g transform="translate(256, 240)">
+      <!-- Candy Drop Silhouette -->
+      <circle cx="0" cy="0" r="110" fill="url(#candyGrad)" filter="url(#shadow)" stroke="#FFFFFF" stroke-width="6" />
+      <!-- Swirl Stripe 1 -->
+      <path d="M-80,-20 Q0,-80 80,-20 Q0,40 -80,-20 Z" fill="#FFFFFF" opacity="0.65" />
+      <!-- Swirl Stripe 2 -->
+      <path d="M-60,30 Q0,-30 60,30 Q0,80 -60,30 Z" fill="#FFFFFF" opacity="0.5" />
+      <!-- Gloss Highlight -->
+      <ellipse cx="-35" cy="-45" rx="30" ry="16" transform="rotate(-30, -35, -45)" fill="#FFFFFF" opacity="0.85" />
+      <!-- Sparkle stars -->
+      <path d="M80,-70 L85,-55 L100,-50 L85,-45 L80,-30 L75,-45 L60,-50 L75,-55 Z" fill="#FFF275" />
+      <path d="M-90,60 L-86,72 L-74,76 L-86,80 L-90,92 L-94,80 L-106,76 L-94,72 Z" fill="#FFF275" />
+    </g>
+
+    <!-- App Name Banner inside safe zone -->
+    <rect x="96" y="375" width="320" height="60" rx="30" fill="#FFFFFF" filter="url(#shadow)" />
+    <text x="256" y="415" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#FF1493" text-anchor="middle" letter-spacing="3">CANDY ULTRA</text>
+  </svg>
+  

@@ -186,15 +186,18 @@ export default function ComparisonPage() {
             Launch Game Now
           </Link>
         </div>
-
-        <div className="text-center mt-12 text-xs text-slate-500 flex flex-wrap items-center justify-center gap-4">
-          <span>© 2026 Candy Crush Ultra</span>
-          <span>•</span>
-          <a href="/privacy.html" className="text-slate-600 hover:text-slate-900 underline font-medium">Privacy Policy</a>
-          <span>•</span>
-          <a href="/manifest.json" className="text-slate-600 hover:text-slate-900 underline font-medium">PWA Manifest</a>
-        </div>
       </div>
+
+      <footer className="mt-20 border-t border-slate-200 py-10 text-center text-xs font-semibold text-slate-500 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© 2026 Candy Crush Ultra. Zero personal data collected.</p>
+          <div className="flex items-center gap-4">
+            <a href="/privacy.html" className="text-pink-600 hover:underline">Privacy Policy (/privacy.html)</a>
+            <Link href="/" className="text-slate-600 hover:text-slate-900">Saga Map</Link>
+            <Link href="/faq" className="text-slate-600 hover:text-slate-900">FAQs</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

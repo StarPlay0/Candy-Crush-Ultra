@@ -1,0 +1,196 @@
+
+  <svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="mBg" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#BAE6FD" />
+        <stop offset="45%" stop-color="#FBCFE8" />
+        <stop offset="100%" stop-color="#E0D4FD" />
+      </linearGradient>
+      <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#FDF2F8" />
+      </linearGradient>
+      <filter id="mShadow">
+        <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.12" />
+      </filter>
+    </defs>
+    <!-- Screen background -->
+    <rect width="1080" height="1920" fill="url(#mBg)" />
+
+    <!-- Mobile Status Bar -->
+    <rect width="1080" height="70" fill="#FFFFFF" opacity="0.4" />
+    <text x="60" y="46" font-family="system-ui, sans-serif" font-weight="700" font-size="28" fill="#1E293B">9:41</text>
+    <text x="960" y="46" font-family="system-ui, sans-serif" font-weight="700" font-size="26" fill="#1E293B">5G 100%</text>
+
+    <!-- Top App Header -->
+    <rect y="70" width="1080" height="150" fill="#FFFFFF" opacity="0.95" filter="url(#mShadow)" />
+    <circle cx="120" cy="145" r="45" fill="#FF1493" />
+    <text x="120" y="157" font-size="44" text-anchor="middle">🍬</text>
+    <text x="190" y="140" font-family="system-ui, sans-serif" font-weight="900" font-size="40" fill="#0F172A">CANDY CRUSH ULTRA</text>
+    <text x="190" y="172" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="#EC4899">OFFLINE MATCH-3 SAGA • 199 LEVELS</text>
+    <rect x="880" y="115" width="140" height="60" rx="30" fill="#10B981" />
+    <text x="950" y="154" font-family="system-ui, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" text-anchor="middle">PRO</text>
+
+    <!-- Trust Marquee Banner -->
+    <rect y="235" width="1080" height="80" fill="#FFF1F2" stroke="#FECDD3" stroke-width="2" />
+    <text x="540" y="285" font-family="system-ui, sans-serif" font-weight="800" font-size="26" fill="#BE123C" text-anchor="middle">⭐ 100% FREE • NO ADS • 100% OFFLINE PWA • INSTANT 60 FPS</text>
+
+    <!-- Main Game Board Container -->
+    <rect x="70" y="340" width="940" height="1100" rx="48" fill="url(#cardGrad)" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="6" />
+
+    <!-- Stats Bar -->
+    <rect x="110" y="380" width="860" height="110" rx="28" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+    <text x="160" y="445" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#0F172A">LEVEL 1</text>
+    <text x="440" y="445" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#E11D48">MOVES: 25</text>
+    <text x="740" y="445" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#7C3AED">SCORE: 2,450</text>
+
+    <!-- 7x7 Candy Board Grid -->
+    <g transform="translate(140, 520)">
+      <!-- Board Background -->
+      <rect width="800" height="800" rx="32" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="3" />
+      
+      <!-- Candies (simulated grid) -->
+      
+            <rect x="30" y="30" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="98" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="155" y="30" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="98" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="280" y="30" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="98" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="405" y="30" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="98" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="530" y="30" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="98" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="655" y="30" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="98" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="30" y="155" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="223" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="155" y="155" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="223" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="280" y="155" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="223" font-size="52" text-anchor="middle">🍭</text>
+          
+            <rect x="405" y="155" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="223" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="530" y="155" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="223" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="655" y="155" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="223" font-size="52" text-anchor="middle">🍭</text>
+          
+            <rect x="30" y="280" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="348" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="155" y="280" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="348" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="280" y="280" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="348" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="405" y="280" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="348" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="530" y="280" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="348" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="655" y="280" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="348" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="30" y="405" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="473" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="155" y="405" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="473" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="280" y="405" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="473" font-size="52" text-anchor="middle">🍭</text>
+          
+            <rect x="405" y="405" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="473" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="530" y="405" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="473" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="655" y="405" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="473" font-size="52" text-anchor="middle">🍭</text>
+          
+            <rect x="30" y="530" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="598" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="155" y="530" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="598" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="280" y="530" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="598" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="405" y="530" width="105" height="105" rx="24" fill="#EF4444" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="598" font-size="52" text-anchor="middle">🍬</text>
+          
+            <rect x="530" y="530" width="105" height="105" rx="24" fill="#10B981" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="598" font-size="52" text-anchor="middle">🍫</text>
+          
+            <rect x="655" y="530" width="105" height="105" rx="24" fill="#8B5CF6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="598" font-size="52" text-anchor="middle">🍩</text>
+          
+            <rect x="30" y="655" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="82" y="723" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="155" y="655" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="207" y="723" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="280" y="655" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="332" y="723" font-size="52" text-anchor="middle">🍭</text>
+          
+            <rect x="405" y="655" width="105" height="105" rx="24" fill="#F59E0B" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="457" y="723" font-size="52" text-anchor="middle">🧁</text>
+          
+            <rect x="530" y="655" width="105" height="105" rx="24" fill="#EC4899" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="582" y="723" font-size="52" text-anchor="middle">🍒</text>
+          
+            <rect x="655" y="655" width="105" height="105" rx="24" fill="#3B82F6" filter="url(#mShadow)" stroke="#FFFFFF" stroke-width="3" />
+            <text x="707" y="723" font-size="52" text-anchor="middle">🍭</text>
+          
+    </g>
+
+    <!-- Action Bar / Boosters -->
+    <g transform="translate(70, 1470)">
+      <rect width="940" height="120" rx="32" fill="#FFFFFF" filter="url(#mShadow)" />
+      <text x="140" y="72" font-size="44">🔨</text>
+      <text x="210" y="72" font-family="system-ui, sans-serif" font-weight="800" font-size="28" fill="#1E293B">Hammer (3)</text>
+
+      <text x="470" y="72" font-size="44">🔄</text>
+      <text x="540" y="72" font-family="system-ui, sans-serif" font-weight="800" font-size="28" fill="#1E293B">Shuffle (2)</text>
+
+      <text x="770" y="72" font-size="44">💣</text>
+      <text x="840" y="72" font-family="system-ui, sans-serif" font-weight="800" font-size="28" fill="#1E293B">Bomb (1)</text>
+    </g>
+
+    <!-- Bottom App Navigation Tab Bar -->
+    <rect y="1740" width="1080" height="180" fill="#FFFFFF" filter="url(#mShadow)" stroke="#E2E8F0" stroke-width="2" />
+    <g transform="translate(100, 1780)">
+      <text x="60" y="45" font-size="40" text-anchor="middle">🎮</text>
+      <text x="60" y="85" font-family="system-ui, sans-serif" font-weight="800" font-size="22" fill="#EC4899" text-anchor="middle">Play</text>
+
+      <text x="270" y="45" font-size="40" text-anchor="middle">🏆</text>
+      <text x="270" y="85" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="#64748B" text-anchor="middle">Why Us</text>
+
+      <text x="470" y="45" font-size="40" text-anchor="middle">⚡</text>
+      <text x="470" y="85" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="#64748B" text-anchor="middle">Features</text>
+
+      <text x="670" y="45" font-size="40" text-anchor="middle">🌍</text>
+      <text x="670" y="85" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="#64748B" text-anchor="middle">Locations</text>
+
+      <text x="840" y="45" font-size="40" text-anchor="middle">⭐</text>
+      <text x="840" y="85" font-family="system-ui, sans-serif" font-weight="700" font-size="22" fill="#64748B" text-anchor="middle">Reviews</text>
+    </g>
+  </svg>
+  

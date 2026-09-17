@@ -23,7 +23,6 @@
 </head>
 <body>
   <div id="root">
-    <!-- Static entry point redirecting or loading application shell -->
     <noscript>
       <div style="font-family: sans-serif; text-align: center; padding: 50px;">
         <h2>Candy Crush Ultra</h2>
@@ -32,7 +31,6 @@
     </noscript>
   </div>
   <script>
-    // Automatic fallback to root application router if directly opened
     if (window.location.pathname.endsWith('index.html')) {
       window.location.replace('/');
     }

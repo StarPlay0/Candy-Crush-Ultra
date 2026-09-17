@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://candycrusherultra.pages.dev/sitemap.xml

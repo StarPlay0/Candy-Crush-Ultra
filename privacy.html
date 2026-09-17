@@ -1,44 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - Candy Ultra</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Candy Crush Ultra</title>
+  <meta name="description" content="Privacy Policy for Candy Crush Ultra. Zero personal data collection, 100% offline and client-side gameplay." />
+  <meta name="theme-color" content="#FFFFFF" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0d0714;
-      color: #ffffff;
-      line-height: 1.6;
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
+    :root {
+      --bg-color: #FFFFFF;
+      --text-color: #0F172A;
+      --accent-color: #EC4899;
+      --card-bg: #F8FAFC;
+      --border-color: #E2E8F0;
     }
-    h1, h2 { color: #a855f7; }
-    a { color: #c084fc; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+    }
+    .header {
+      background: #FFFFFF;
+      border-bottom: 1px solid #FBCFE8;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(236,72,153,0.05);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #0F172A;
+      font-weight: 900;
+      font-size: 1.25rem;
+    }
+    .brand span { color: #EC4899; }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #FDF2F8;
+      color: #BE185D;
+      text-decoration: none;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border: 1px solid #FBCFE8;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #FCE7F3; }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+      color: #0F172A;
+    }
+    .effective-date {
+      color: #64748B;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      color: #1E293B;
+    }
+    p {
+      color: #334155;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+    ul {
+      margin-left: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+    li { margin-bottom: 0.35rem; }
+    .contact-box {
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .contact-box h3 {
+      color: #9F1239;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .contact-box p { color: #881337; margin-bottom: 0.25rem; }
+    footer {
+      border-top: 1px solid #E2E8F0;
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #64748B;
+      background: #FFFFFF;
+    }
+    footer a {
+      color: #EC4899;
+      text-decoration: none;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
-  <h1>Privacy Policy for Candy Ultra</h1>
-  <p><strong>Last Updated:</strong> September 17, 2026</p>
-  
-  <h2>1. Overview</h2>
-  <p>Candy Ultra ("we", "our", or "us") is committed to protecting your privacy. Candy Ultra is designed as a local-first, offline Match-3 puzzle game hosted at <code>https://candycrusherultra.pages.dev/</code>.</p>
-  
-  <h2>2. Data Collection and Retention</h2>
-  <p>We do not collect, store, or transmit any personal identifiable information (PII). All game progress, high scores, and settings are stored locally on your device using web storage technologies such as <code>localStorage</code>.</p>
-  
-  <h2>3. Third-Party Services</h2>
-  <p>This web application operates without third-party analytics or ad-tracking networks. No personal data is shared with external vendors.</p>
-  
-  <h2>4. Security Protocols</h2>
-  <p>Candy Ultra is strictly served over secure HTTPS connections, ensuring that communication between your browser and our hosting server (Cloudflare Pages) is fully encrypted.</p>
-  
-  <h2>5. Contact Us</h2>
-  <p>If you have any questions about this Privacy Policy, please contact developer support at <a href="mailto:support@candycrusherultra.pages.dev">support@candycrusherultra.pages.dev</a>.</p>
+  <header class="header">
+    <a href="/" class="brand">
+      <span>🍬</span> Candy Crush Ultra
+    </a>
+    <a href="/" class="back-btn">← Back to Game</a>
+  </header>
+
+  <main class="container">
+    <span class="badge">Google Play Console &amp; PWA Compliant</span>
+    <h1>Privacy Policy</h1>
+    <p class="effective-date">Last Updated: September 17, 2026</p>
+
+    <div class="section-card">
+      <h2>1. Overview &amp; Application Identity</h2>
+      <p>
+        Welcome to <strong>Candy Crush Ultra</strong> (Package Identifier: <code>com.candycrushultra.app</code>). 
+        This privacy policy informs players and regulatory authorities of our strict commitment to zero data collection, offline privacy, and security protocols.
+      </p>
+      <p>
+        <strong>Candy Crush Ultra</strong> is developed and operated as a privacy-first, local-first web application and Progressive Web App (PWA) designed to provide 100% ad-free Match-3 puzzle gameplay without collecting any personal data.
+      </p>
+    </div>
+
+    <div class="section-card">
+      <h2>2. Zero Personal Data Collection (100% Client-Side)</h2>
+      <p>We respect your fundamental right to digital privacy. We explicitly confirm:</p>
+      <ul>
+        <li><strong>No Personal Information:</strong> We do NOT collect your name, email address, phone number, physical address, or contact list.</li>
+        <li><strong>No Account or Registration Required:</strong> The application does not require any login, signup, or authentication credentials.</li>
+        <li><strong>No Device Identifiers:</strong> We do not collect or transmit IMEI, Android ID, Advertising ID (AAID), or hardware serial numbers.</li>
+        <li><strong>No Geolocation Tracking:</strong> We never request or access GPS, network location, or Wi-Fi scanning permissions.</li>
+        <li><strong>No Third-Party Ad Networks:</strong> We do not incorporate Google AdMob, Unity Ads, AppLovin, or any advertising SDKs. The app is completely free of advertisements.</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h2>3. Local Storage &amp; Data Retention</h2>
+      <p>
+        Candy Crush Ultra uses client-side browser storage (specifically <code>localStorage</code> and <code>IndexedDB</code>) solely to power core gameplay functionality. 
+        This data is stored strictly on your local device and is NEVER transmitted to external servers:
+      </p>
+      <ul>
+        <li><strong>Level Progression:</strong> Current level reached (from Level 1 to Level 199) and stars earned per stage.</li>
+        <li><strong>High Scores:</strong> Your best scores and move records.</li>
+        <li><strong>Game Preferences:</strong> Audio toggle (sound effects on/off) and haptic vibration preferences.</li>
+        <li><strong>Offline Cache:</strong> Game assets cached by the Service Worker (<code>sw.js</code>) to allow fully functional offline play when disconnected from the Internet.</li>
+      </ul>
+      <p>
+        You retain full control over this data. You can erase all saved progress at any time by clearing your browser cache, storage data, or uninstalling the PWA.
+      </p>
+    </div>
+
+    <div class="section-card">
+      <h2>4. Security Measures &amp; Data Protection Protocols</h2>
+      <p>
+        We prioritize the security and integrity of your gaming experience through industrial best practices:
+      </p>
+      <ul>
+        <li><strong>HTTPS Enforcement:</strong> All app assets and code are served exclusively over encrypted HTTPS connections (TLS 1.3) to prevent tampering or man-in-the-middle attacks.</li>
+        <li><strong>Origin-Private Sandboxing:</strong> All game logic runs within the sandboxed web browser context with no external code execution permissions.</li>
+        <li><strong>Service Worker Isolation:</strong> The Service Worker operates strictly as an asset caching proxy with zero telemetry transmission capabilities.</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h2>5. Children's Online Privacy Protection (COPPA &amp; GDPR Compliance)</h2>
+      <p>
+        Candy Crush Ultra is family-friendly and suitable for all ages. Because we do not collect, store, transmit, or monetize any personal data from any user, our application strictly complies with the Children’s Online Privacy Protection Act (COPPA), the General Data Protection Regulation (GDPR), and the Google Play Families Policy.
+      </p>
+    </div>
+
+    <div class="section-card">
+      <h2>6. Changes to this Privacy Policy</h2>
+      <p>
+        We may update our Privacy Policy from time to time to reflect game engine improvements or legal updates. Any revisions will be published immediately on this page with an updated "Last Updated" timestamp.
+      </p>
+    </div>
+
+    <div class="contact-box">
+      <h3>7. Developer Contact Information</h3>
+      <p>If you have any questions, inquiries, or feedback regarding this Privacy Policy or Candy Crush Ultra, please reach out to our team:</p>
+      <p><strong>Application:</strong> Candy Crush Ultra (com.candycrushultra.app)</p>
+      <p><strong>Developer Contact:</strong> mohsinlali47@gmail.com</p>
+      <p><strong>Hosting &amp; Support:</strong> https://candycrusherultra.pages.dev/privacy.html</p>
+    </div>
+  </main>
 
   <footer>
-    <p><a href="/">Return to Candy Ultra</a></p>
+    <p>© 2026 Candy Crush Ultra. All rights reserved. • <a href="/privacy.html">Privacy Policy</a> • <a href="/">Play Match-3 Saga</a></p>
   </footer>
 </body>
 </html>

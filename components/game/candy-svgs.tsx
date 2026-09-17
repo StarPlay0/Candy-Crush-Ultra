@@ -10,7 +10,7 @@ interface CandySvgProps {
   size?: number;
 }
 
-export const CandySvg = React.memo(function CandySvg({ color, special = 'none', className = '', size = 52 }: CandySvgProps) {
+export function CandySvg({ color, special = 'none', className = '', size = 52 }: CandySvgProps) {
   // If it's a Color Bomb (Choco Truffle with Rainbow Sprinkles)
   if (color === 'rainbow' || special === 'color-bomb') {
     return (
@@ -167,7 +167,7 @@ export const CandySvg = React.memo(function CandySvg({ color, special = 'none', 
       )}
     </div>
   );
-});
+}
 
 function renderCandyShape(color: CandyColor, size: number) {
   switch (color) {
@@ -380,7 +380,7 @@ function renderCandyShape(color: CandyColor, size: number) {
   }
 }
 
-export const ObstacleSvg = React.memo(function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: number }) {
+export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: number }) {
   if (type === 'licorice') {
     return (
       <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
@@ -434,4 +434,4 @@ export const ObstacleSvg = React.memo(function ObstacleSvg({ type, size = 52 }: 
   }
 
   return null;
-});
+}

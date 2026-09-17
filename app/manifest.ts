@@ -5,33 +5,26 @@ export const dynamic = 'force-static';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Candy Ultra',
+    name: 'Candy Crush Ultra',
     short_name: 'Candy Ultra',
-    description: 'A premium, fully offline, local-first Match-3 puzzle game.',
+    description: 'A premium, fully offline Match-3 puzzle game with 199 handcrafted levels, zero ads, and pure static performance.',
     start_url: '/',
-    scope: '/',
     display: 'standalone',
     orientation: 'any',
-    background_color: '#0d0714',
-    theme_color: '#0d0714',
+    background_color: '#FFFFFF',
+    theme_color: '#FFFFFF',
     icons: [
+      {
+        src: '/icon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any maskable' as any,
+      },
       {
         src: '/icon-192.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'any',
-      },
-      {
-        src: '/icon-512.png',
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/icon-512.png',
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'maskable',
       },
     ],
     screenshots: [
@@ -39,17 +32,16 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/screenshot-mobile.png',
         sizes: '1080x1920',
         type: 'image/png',
-        form_factor: 'narrow',
-        label: 'Mobile View',
+        form_factor: 'narrow' as any,
+        label: 'Mobile App View',
       },
       {
         src: '/screenshot-desktop.png',
         sizes: '1920x1080',
         type: 'image/png',
-        form_factor: 'wide',
-        label: 'Desktop View',
+        form_factor: 'wide' as any,
+        label: 'Desktop App View',
       },
     ],
-    categories: ['games', 'utilities'],
   };
 }

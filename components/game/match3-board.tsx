@@ -16,7 +16,6 @@ import { Sparkles } from 'lucide-react';
 export function Match3Board() {
   const [viewMode, setViewMode] = useState<'map' | 'game'>('map');
   const [currentLevelConfig, setCurrentLevelConfig] = useState<LevelConfig>(getLevelConfig(17));
-  const [sessionKey, setSessionKey] = useState(0);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [currentTab, setCurrentTab] = useState<'map' | 'events' | 'shop'>('map');
 
@@ -37,7 +36,6 @@ export function Match3Board() {
 
   const handleSelectLevel = (config: LevelConfig) => {
     setCurrentLevelConfig(config);
-    setSessionKey(k => k + 1);
     setViewMode('game');
   };
 
@@ -60,7 +58,6 @@ export function Match3Board() {
   const handleNextLevel = (nextLevelId: number) => {
     const nextConfig = getLevelConfig(Math.min(199, nextLevelId));
     setCurrentLevelConfig(nextConfig);
-    setSessionKey(k => k + 1);
     setViewMode('game');
   };
 
@@ -157,7 +154,7 @@ export function Match3Board() {
         </div>
       ) : (
         <GameBoardView
-          key={`game-board-level-${currentLevelConfig.id}-${sessionKey}`}
+          key={`game-board-level-${currentLevelConfig.id}`}
           levelConfig={currentLevelConfig}
           lives={gameState.lives}
           coins={gameState.coins}

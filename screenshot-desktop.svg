@@ -1,0 +1,231 @@
+
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="dBg" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#BAE6FD" />
+        <stop offset="50%" stop-color="#FBCFE8" />
+        <stop offset="100%" stop-color="#E0D4FD" />
+      </linearGradient>
+      <filter id="dShadow">
+        <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#000000" flood-opacity="0.12" />
+      </filter>
+    </defs>
+    <!-- Desktop Background -->
+    <rect width="1920" height="1080" fill="url(#dBg)" />
+
+    <!-- Desktop Header -->
+    <rect width="1920" height="88" fill="#FFFFFF" opacity="0.95" filter="url(#dShadow)" />
+    <circle cx="100" cy="44" r="28" fill="#FF1493" />
+    <text x="100" y="52" font-size="28" text-anchor="middle">🍬</text>
+    <text x="145" y="52" font-family="system-ui, sans-serif" font-weight="900" font-size="26" fill="#0F172A">CANDY CRUSH ULTRA</text>
+    <rect x="420" y="32" width="70" height="26" rx="6" fill="#EC4899" />
+    <text x="455" y="49" font-family="system-ui, sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle">PWA</text>
+
+    <!-- Header Navigation -->
+    <text x="650" y="52" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#0F172A">Saga Map</text>
+    <text x="780" y="52" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#64748B">Why Choose Us</text>
+    <text x="940" y="52" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#64748B">Game Features</text>
+    <text x="1100" y="52" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#64748B">Locations (34)</text>
+    <text x="1260" y="52" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#64748B">Reviews &amp; FAQ</text>
+
+    <!-- Trust pill & Install CTA -->
+    <rect x="1500" y="24" width="200" height="40" rx="20" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5" />
+    <text x="1600" y="49" font-family="system-ui, sans-serif" font-weight="800" font-size="13" fill="#065F46" text-anchor="middle">🛡️ 100% Offline • 0 Ads</text>
+    <rect x="1730" y="22" width="130" height="44" rx="22" fill="#FF1493" />
+    <text x="1795" y="49" font-family="system-ui, sans-serif" font-weight="800" font-size="14" fill="#FFFFFF" text-anchor="middle">Install PWA</text>
+
+    <!-- Trust Marquee Bar -->
+    <rect y="88" width="1920" height="44" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1" />
+    <text x="960" y="116" font-family="system-ui, sans-serif" font-weight="800" font-size="15" fill="#BE123C" text-anchor="middle">⭐ 100% FREE SAGA • 199 HANDCRAFTED LEVELS • 0 AD INTERRUPTIONS • 100% PRIVATE CLIENT-SIDE ENGINE</text>
+
+    <!-- Left Panel: Saga Map Progression (Levels 1 to 199) -->
+    <rect x="100" y="160" width="400" height="740" rx="28" fill="#FFFFFF" filter="url(#dShadow)" />
+    <text x="140" y="210" font-family="system-ui, sans-serif" font-weight="900" font-size="22" fill="#0F172A">SAGA PROGRESSION</text>
+    <text x="140" y="235" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#64748B">Handcrafted 199 levels unlocked</text>
+    
+      <rect x="130" y="260" width="340" height="70" rx="18" fill="#FDF2F8" stroke="#F472B6" stroke-width="2" />
+      <circle cx="170" cy="295" r="22" fill="#FF1493" />
+      <text x="170" y="302" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">1</text>
+      <text x="210" y="293" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#0F172A">Level 1: Sugar Falls</text>
+      <text x="210" y="315" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#EC4899">⭐ 3 Stars • Target: 1,500</text>
+    
+      <rect x="130" y="350" width="340" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+      <circle cx="170" cy="385" r="22" fill="#CBD5E1" />
+      <text x="170" y="392" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">2</text>
+      <text x="210" y="383" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#0F172A">Level 2: Sugar Falls</text>
+      <text x="210" y="405" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#64748B">⭐ 3 Stars • Target: 1,500</text>
+    
+      <rect x="130" y="440" width="340" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+      <circle cx="170" cy="475" r="22" fill="#CBD5E1" />
+      <text x="170" y="482" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">3</text>
+      <text x="210" y="473" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#0F172A">Level 3: Sugar Falls</text>
+      <text x="210" y="495" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#64748B">⭐ 3 Stars • Target: 1,500</text>
+    
+      <rect x="130" y="530" width="340" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+      <circle cx="170" cy="565" r="22" fill="#CBD5E1" />
+      <text x="170" y="572" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">4</text>
+      <text x="210" y="563" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#0F172A">Level 4: Sugar Falls</text>
+      <text x="210" y="585" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#64748B">⭐ 3 Stars • Target: 1,500</text>
+    
+      <rect x="130" y="620" width="340" height="70" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+      <circle cx="170" cy="655" r="22" fill="#CBD5E1" />
+      <text x="170" y="662" font-family="system-ui, sans-serif" font-weight="900" font-size="16" fill="#FFFFFF" text-anchor="middle">5</text>
+      <text x="210" y="653" font-family="system-ui, sans-serif" font-weight="800" font-size="16" fill="#0F172A">Level 5: Sugar Falls</text>
+      <text x="210" y="675" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#64748B">⭐ 3 Stars • Target: 1,500</text>
+    
+
+    <!-- Center Panel: Interactive Match-3 Game Board -->
+    <rect x="530" y="160" width="860" height="740" rx="28" fill="#FFFFFF" filter="url(#dShadow)" />
+    <!-- Game Board Header -->
+    <rect x="560" y="190" width="800" height="80" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+    <text x="610" y="240" font-family="system-ui, sans-serif" font-weight="900" font-size="24" fill="#0F172A">LEVEL 1</text>
+    <text x="880" y="240" font-family="system-ui, sans-serif" font-weight="900" font-size="24" fill="#E11D48">MOVES: 25</text>
+    <text x="1160" y="240" font-family="system-ui, sans-serif" font-weight="900" font-size="24" fill="#7C3AED">SCORE: 2,450</text>
+
+    <!-- Candies 7x7 Grid inside Center -->
+    <g transform="translate(680, 290)">
+      <rect width="560" height="560" rx="24" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2" />
+      
+            <rect x="20" y="20" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="68" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="108" y="20" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="68" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="196" y="20" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="68" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="284" y="20" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="68" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="372" y="20" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="68" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="460" y="20" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="68" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="20" y="108" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="156" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="108" y="108" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="156" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="196" y="108" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="156" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="284" y="108" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="156" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="372" y="108" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="156" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="460" y="108" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="156" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="20" y="196" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="244" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="108" y="196" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="244" font-size="36" text-anchor="middle">🍭</text>
+          
+            <rect x="196" y="196" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="244" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="284" y="196" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="244" font-size="36" text-anchor="middle">🍭</text>
+          
+            <rect x="372" y="196" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="244" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="460" y="196" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="244" font-size="36" text-anchor="middle">🍭</text>
+          
+            <rect x="20" y="284" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="332" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="108" y="284" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="332" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="196" y="284" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="332" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="284" y="284" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="332" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="372" y="284" width="74" height="74" rx="18" fill="#EF4444" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="332" font-size="36" text-anchor="middle">🍬</text>
+          
+            <rect x="460" y="284" width="74" height="74" rx="18" fill="#F59E0B" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="332" font-size="36" text-anchor="middle">🧁</text>
+          
+            <rect x="20" y="372" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="420" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="108" y="372" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="420" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="196" y="372" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="420" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="284" y="372" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="420" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="372" y="372" width="74" height="74" rx="18" fill="#10B981" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="420" font-size="36" text-anchor="middle">🍫</text>
+          
+            <rect x="460" y="372" width="74" height="74" rx="18" fill="#EC4899" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="420" font-size="36" text-anchor="middle">🍒</text>
+          
+            <rect x="20" y="460" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="57" y="508" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="108" y="460" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="145" y="508" font-size="36" text-anchor="middle">🍭</text>
+          
+            <rect x="196" y="460" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="233" y="508" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="284" y="460" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="321" y="508" font-size="36" text-anchor="middle">🍭</text>
+          
+            <rect x="372" y="460" width="74" height="74" rx="18" fill="#8B5CF6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="409" y="508" font-size="36" text-anchor="middle">🍩</text>
+          
+            <rect x="460" y="460" width="74" height="74" rx="18" fill="#3B82F6" filter="url(#dShadow)" stroke="#FFFFFF" stroke-width="2" />
+            <text x="497" y="508" font-size="36" text-anchor="middle">🍭</text>
+          
+    </g>
+
+    <!-- Right Panel: Powerups & Boosters -->
+    <rect x="1420" y="160" width="400" height="740" rx="28" fill="#FFFFFF" filter="url(#dShadow)" />
+    <text x="1460" y="210" font-family="system-ui, sans-serif" font-weight="900" font-size="22" fill="#0F172A">POWERUP VAULT</text>
+    <text x="1460" y="235" font-family="system-ui, sans-serif" font-weight="600" font-size="14" fill="#64748B">Equip your candy superpowers</text>
+
+    <g transform="translate(1450, 260)">
+      <rect width="340" height="110" rx="20" fill="#FEF3C7" stroke="#FDE68A" stroke-width="2" />
+      <text x="40" y="65" font-size="44">🔨</text>
+      <text x="100" y="55" font-family="system-ui, sans-serif" font-weight="800" font-size="18" fill="#92400E">Lollipop Hammer</text>
+      <text x="100" y="80" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#B45309">Smashes any single candy (3 ready)</text>
+    </g>
+
+    <g transform="translate(1450, 390)">
+      <rect width="340" height="110" rx="20" fill="#EDE9FE" stroke="#DDD6FE" stroke-width="2" />
+      <text x="40" y="65" font-size="44">🔄</text>
+      <text x="100" y="55" font-family="system-ui, sans-serif" font-weight="800" font-size="18" fill="#5B21B6">Free Hand Shuffle</text>
+      <text x="100" y="80" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#6D28D9">Rearranges entire board (2 ready)</text>
+    </g>
+
+    <g transform="translate(1450, 520)">
+      <rect width="340" height="110" rx="20" fill="#FCE7F3" stroke="#FBCFE8" stroke-width="2" />
+      <text x="40" y="65" font-size="44">💣</text>
+      <text x="100" y="55" font-family="system-ui, sans-serif" font-weight="800" font-size="18" fill="#9D174D">Color Bomb Blast</text>
+      <text x="100" y="80" font-family="system-ui, sans-serif" font-weight="600" font-size="13" fill="#BE185D">Clears all matching candies (1 ready)</text>
+    </g>
+
+    <!-- Desktop Footer Snippet -->
+    <rect y="930" width="1920" height="150" fill="#0F172A" />
+    <text x="100" y="990" font-family="system-ui, sans-serif" font-weight="900" font-size="20" fill="#FFFFFF">CANDY CRUSH ULTRA</text>
+    <text x="100" y="1020" font-family="system-ui, sans-serif" font-weight="500" font-size="14" fill="#94A3B8">© 2026 Candy Crush Ultra. 100% Free • No In-App Purchases • Google Play Ready PWA</text>
+    <text x="1400" y="1000" font-family="system-ui, sans-serif" font-weight="700" font-size="15" fill="#38BDF8">Privacy Policy (/privacy.html)  •  Terms  •  Saga Map  •  Why Choose Us</text>
+  </svg>
+  
