@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, Volume2, VolumeX, Moon, Sun, HelpCircle, Smartphone, Sparkles, Zap, Flame } from 'lucide-react';
+import { X, Volume2, VolumeX, Moon, Sun, HelpCircle, Smartphone, Sparkles, Zap, Flame, Maximize2, Minimize2, ShieldAlert, Monitor } from 'lucide-react';
 import { CandySvg } from './candy-svgs';
 import { sound } from '@/lib/audio';
 import { haptics } from '@/lib/haptics';
@@ -24,8 +24,29 @@ export function SettingsModal({
 }: SettingsModalProps) {
   const [isMuted, setIsMuted] = useState(sound.isMuted);
   const [isHapticsEnabled, setIsHapticsEnabled] = useState(haptics.isEnabled);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const updateFs = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', updateFs);
+    return () => document.removeEventListener('fullscreenchange', updateFs);
+  }, []);
 
   if (!isOpen) return null;
+
+  const toggleFullscreen = () => {
+    sound.playClick();
+    haptics.touch();
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
 
   const toggleAudio = () => {
     sound.isMuted = !sound.isMuted;
@@ -136,6 +157,51 @@ export function SettingsModal({
             >
               {isDark ? 'NIGHT' : 'DAY'}
             </button>
+          </div>
+
+          {/* Fullscreen / Hide Browser Bar Toggle */}
+          <div className="flex items-center justify-between p-3.5 bg-blue-50 dark:bg-slate-800/80 rounded-2xl border border-blue-200 dark:border-slate-700">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-500 text-white rounded-xl flex items-center justify-center">
+                {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+              </div>
+              <div>
+                <h4 className="font-black text-slate-800 dark:text-white text-sm">Immersive Fullscreen</h4>
+                <p className="text-xs text-slate-500">Hide URL &amp; Navigation Bars</p>
+              </div>
+            </div>
+            <button
+              onClick={toggleFullscreen}
+              className={`px-4 py-1.5 rounded-xl font-black text-xs uppercase cursor-pointer ${
+                isFullscreen ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-700'
+              }`}
+            >
+              {isFullscreen ? 'ACTIVE' : 'ENTER'}
+            </button>
+          </div>
+        </div>
+
+        {/* APK / Android URL Bar Removal Guide */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-indigo-950 p-4 rounded-2xl border-2 border-blue-200 dark:border-blue-900 mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <Monitor size={18} className="text-blue-600 dark:text-blue-400" />
+            <h4 className="font-black text-sm text-blue-950 dark:text-blue-200 uppercase tracking-wide">
+              How to Remove URL Bar in APK
+            </h4>
+          </div>
+          <p className="text-xs text-slate-700 dark:text-slate-300 mb-2 leading-relaxed">
+            The top bar with <code className="bg-white/80 dark:bg-slate-900 px-1 py-0.5 rounded font-mono text-[11px]">[X] domain [Share] [:]</code> is Android&apos;s Chrome Custom Tab. To eliminate it:
+          </p>
+          <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+            <div className="bg-white/90 dark:bg-slate-900/90 p-2.5 rounded-xl border border-blue-100 dark:border-slate-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">1. WebToAPK Converter Setting:</span> In your web-to-apk converter, change Browser Type from <em>&quot;Custom Tab&quot;</em> to <strong className="underline text-indigo-600 dark:text-indigo-300">Full Screen WebView</strong> and toggle <strong>&quot;Show Action Bar / Toolbar&quot; OFF</strong>.
+            </div>
+            <div className="bg-white/90 dark:bg-slate-900/90 p-2.5 rounded-xl border border-blue-100 dark:border-slate-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">2. PWABuilder / TWA:</span> If using PWABuilder, the SHA-256 signature in <code className="text-pink-600 font-mono">assetlinks.json</code> must match your APK certificate.
+            </div>
+            <div className="bg-white/90 dark:bg-slate-900/90 p-2.5 rounded-xl border border-blue-100 dark:border-slate-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">3. Quick One-Tap:</span> Tap the purple ⛶ Fullscreen icon on top of the Saga Map to instantly collapse the URL bar.
+            </div>
           </div>
         </div>
 

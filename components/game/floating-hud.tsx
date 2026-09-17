@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ArrowLeft, Star, Volume2, VolumeX, Sparkles, CheckCircle2,
-  Trophy, Pause, Flame
+  Trophy, Pause, Flame, Maximize2, Minimize2
 } from 'lucide-react';
 import { LevelConfig } from '@/lib/game-types';
 import { CandySvg, ObstacleSvg } from './candy-svgs';
@@ -40,6 +40,26 @@ export function FloatingHud({
   onBackToMap,
   isDark = false,
 }: FloatingHudProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFs = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', handleFs);
+    return () => document.removeEventListener('fullscreenchange', handleFs);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
+
   const objectiveTarget = levelConfig.objective.target;
   const remainingObjective = Math.max(0, objectiveTarget - objectiveProgress);
   const isObjectiveMet = remainingObjective === 0;
@@ -152,6 +172,17 @@ export function FloatingHud({
             title="Pause Game"
           >
             <Pause size={15} fill="currentColor" />
+          </motion.button>
+
+          {/* Fullscreen Toggle (Hides URL bar) */}
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={toggleFullscreen}
+            className="w-8 h-8 bg-white/95 dark:bg-slate-800/90 rounded-full border border-pink-300 dark:border-slate-700 flex items-center justify-center text-pink-700 dark:text-pink-300 shadow-sm cursor-pointer transition-all"
+            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen (Hide Browser URL Bar)'}
+          >
+            {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
           </motion.button>
 
           {/* Sound Toggle */}

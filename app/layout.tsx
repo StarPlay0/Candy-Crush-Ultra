@@ -10,6 +10,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: 'cover',
 };
 
 export const metadata: Metadata = {
@@ -17,6 +18,11 @@ export const metadata: Metadata = {
   title: 'Candy Crush Ultra - Free Offline Match-3 Game',
   description: 'A premium, completely free, local-first Match-3 puzzle game. 199 levels, 0 ads, purely static performance.',
   manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Candy Ultra',
+  },
   alternates: {
     canonical: 'https://candycrusherultra.pages.dev',
   },
@@ -63,6 +69,15 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#FFFFFF" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="full-screen" content="yes" />
+        <meta name="screen-orientation" content="portrait" />
+        <meta name="x5-fullscreen" content="true" />
+        <meta name="x5-page-mode" content="app" />
+        <meta name="browsermode" content="application" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}

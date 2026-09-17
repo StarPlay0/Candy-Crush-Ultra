@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, Lock, Play, Mail, Heart, Settings, Plus, Trophy, Sparkles, Award } from 'lucide-react';
+import { Star, Lock, Play, Mail, Heart, Settings, Plus, Trophy, Sparkles, Award, Maximize2, Minimize2 } from 'lucide-react';
 import { getLevelConfig } from '@/lib/levels';
 import { LevelConfig } from '@/lib/game-types';
 import { sound } from '@/lib/audio';
@@ -33,7 +33,30 @@ export function SagaMap({
   isDark = false,
 }: SagaMapProps) {
   const [selectedLevelModal, setSelectedLevelModal] = useState<LevelConfig | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    sound.playClick();
+    haptics.touch();
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
 
   // Generate complete 199-level progression tree (from 199 down to 1)
   const levels = useMemo(() => Array.from({ length: TOTAL_SAGA_LEVELS }, (_, i) => i + 1).reverse(), []);
@@ -78,6 +101,9 @@ export function SagaMap({
     if (!selectedLevelModal) return;
     sound.playPop(1.4);
     haptics.touch();
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
     onSelectLevel(selectedLevelModal);
     setSelectedLevelModal(null);
   };
@@ -142,6 +168,15 @@ export function SagaMap({
             <div className="w-4 h-3 bg-amber-500 rounded-sm border border-yellow-200 transform rotate-12 shadow-sm" />
             <span>{coins}</span>
             <Plus size={14} strokeWidth={3} className="text-amber-800" />
+          </button>
+
+          {/* Fullscreen / Immersive Toggle Button (Hides URL bar) */}
+          <button 
+            onClick={toggleFullscreen}
+            title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen (Hide Browser Bars)"}
+            className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 border-2 border-white rounded-2xl flex items-center justify-center shadow-md text-white hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+          >
+            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>
 
           {/* Settings Gear */}

@@ -9,8 +9,15 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'Candy Ultra',
     description: 'A premium, fully offline Match-3 puzzle game with 199 handcrafted levels, zero ads, and pure static performance.',
     start_url: '/',
-    display: 'standalone',
-    orientation: 'any',
+    scope: '/',
+    display: 'fullscreen',
+    display_override: [
+      'fullscreen',
+      'standalone',
+      'minimal-ui',
+      'window-controls-overlay',
+    ] as any,
+    orientation: 'portrait' as any,
     background_color: '#FFFFFF',
     theme_color: '#FFFFFF',
     icons: [
