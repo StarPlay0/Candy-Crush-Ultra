@@ -3,9 +3,19 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.candycrushultra.app",
+      "package_name": "dev.pages.candycrusherultra.twa",
       "sha256_cert_fingerprints": [
-        "14:6D:E9:7D:66:B9:4C:E9:78:E5:60:F4:71:0F:78:55:76:A8:1B:32:0C:68:55:92:DF:D3:5D:87:66:03:D0:68"
+        "9D:17:25:5D:27:2E:68:85:9D:D8:33:91:CC:66:5E:71:19:1F:26:C6:A6:7E:C9:60:92:09:52:29:7E:DD:1D:E0"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.pages.candycrushultra.twa",
+      "sha256_cert_fingerprints": [
+        "9D:17:25:5D:27:2E:68:85:9D:D8:33:91:CC:66:5E:71:19:1F:26:C6:A6:7E:C9:60:92:09:52:29:7E:DD:1D:E0"
       ]
     }
   }
