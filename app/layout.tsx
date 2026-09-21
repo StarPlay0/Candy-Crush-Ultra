@@ -2,7 +2,6 @@ import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { PwaInstallPrompt } from '@/components/ui/pwa-install';
 import { SiteBottomNav } from '@/components/ui/site-bottom-nav';
-import { DevSwDiagnosticOverlay } from '@/components/ui/dev-sw-diagnostic';
 import { generateWebSiteSchema, generateVideoGameSchema } from '@/lib/schema';
 
 export const viewport: Viewport = {
@@ -141,7 +140,6 @@ html, body {
         {children}
         <PwaInstallPrompt />
         <SiteBottomNav />
-        <DevSwDiagnosticOverlay />
       </body>
     </html>
   );
