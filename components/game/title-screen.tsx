@@ -52,6 +52,15 @@ export function TitleScreen({
   const handlePlayClick = () => {
     sound.playTada();
     haptics.levelWin();
+    try {
+      if (typeof window !== 'undefined') {
+        window.scrollTo(0, 1);
+        if (document.documentElement && !document.fullscreenElement && 'requestFullscreen' in document.documentElement) {
+          // Attempt fullscreen without blocking gameplay if user gesture allows
+          (document.documentElement as any).requestFullscreen().catch(() => {});
+        }
+      }
+    } catch (e) {}
     onPlay();
   };
 
