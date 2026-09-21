@@ -62,6 +62,15 @@ const PARTICLE_COLOR_MAP: Record<CandyColor | 'rainbow', string[]> = {
   rainbow: ['#FF1358', '#FFAA00', '#FFE600', '#52FF94', '#48CAE4', '#C77DFF'],
 };
 
+// Deterministic pseudo-random number generator for SSR-hydration parity
+function getSeededRandom(seed: number) {
+  let s = Math.abs(seed | 0) + 1;
+  return function() {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
 function createInitialBoard(config: LevelConfig): Cell[][] {
   const width = config.gridWidth;
   const height = config.gridHeight;
@@ -73,6 +82,10 @@ function createInitialBoard(config: LevelConfig): Cell[][] {
   const obstacleMap = new Map<string, ObstacleType>();
   config.initialObstacles?.forEach(o => obstacleMap.set(`${o.x},${o.y}`, o.type));
 
+  // Deterministic seeded generator ensures identical layout across server SSR/SSG and client hydration
+  const rng = getSeededRandom(config.id * 10007 + width * 31 + height);
+  const getSeededColor = () => COLORS[Math.floor(rng() * COLORS.length)];
+
   for (let y = 0; y < height; y++) {
     const row: Cell[] = [];
     for (let x = 0; x < width; x++) {
@@ -80,13 +93,13 @@ function createInitialBoard(config: LevelConfig): Cell[][] {
       const obstacle = obstacleMap.get(key) || 'none';
       const hasJelly = jellyMap.has(key);
 
-      let color = getRandomColor();
+      let color = getSeededColor();
       // Avoid initial 3-in-a-row lines on startup
       while (
         (x >= 2 && row[x - 1]?.candy?.color === color && row[x - 2]?.candy?.color === color) ||
         (y >= 2 && newBoard[y - 1]?.[x]?.candy?.color === color && newBoard[y - 2]?.[x]?.candy?.color === color)
       ) {
-        color = getRandomColor();
+        color = getSeededColor();
       }
 
       // Starting signature special candies on certain levels
@@ -105,7 +118,7 @@ function createInitialBoard(config: LevelConfig): Cell[][] {
         x,
         y,
         candy: {
-          id: generateId(),
+          id: `candy_init_${config.id}_${x}_${y}`,
           color: candyColor,
           special,
         },
@@ -205,13 +218,13 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       }
     });
 
-    setParticles(prev => [...prev.slice(-4), ...newParticles].slice(0, 8));
+    setParticles(prev => [...prev.slice(-2), ...newParticles].slice(0, 5));
     setShockwaves(prev => [...prev.slice(-1), ...newShockwaves].slice(0, 2));
 
     setTimeout(() => {
       setParticles([]);
       setShockwaves([]);
-    }, 450);
+    }, 250);
   }, []);
 
   // Initialize board from level configuration
@@ -568,7 +581,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       b = dropResult.board;
       setBoard([...b]);
       sound.playDrop();
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 30));
 
       const { matches, matchGroups } = findGridMatches(b);
       if (matches.length === 0) break;
@@ -583,7 +596,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
         color: b[m.y]?.[m.x]?.candy?.color || 'yellow',
       }));
       setHighlightedMatches(cascadeCandiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 120);
+      setTimeout(() => setHighlightedMatches([]), 70);
 
       // Play satisfying multi-layer popping sound
       sound.playPop(1 + cascadeCount * 0.18, matches.length);
@@ -666,7 +679,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       b = nextBoard;
       setBoard([...b]);
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 25));
     }
 
     setScore(prev => prev + totalAddedScore);
@@ -676,7 +689,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
     setTimeout(() => {
       setComboMultiplier(1);
-    }, 1000);
+    }, 800);
 
     setMoves(prevMoves => {
       const nextMoves = prevMoves - 1;
@@ -712,7 +725,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     swappedBoard[c2.y][c2.x].candy = tempCandy;
 
     setBoard([...swappedBoard]);
-    await new Promise(r => setTimeout(r, 65));
+    await new Promise(r => setTimeout(r, 35));
 
     // 2. Check for Color Bomb Specials
     const isC1ColorBomb = cell1.candy.color === 'rainbow' || cell1.candy.special === 'color-bomb';
@@ -745,7 +758,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       addScorePopup(c2.x, c2.y, 5000, 'SUPERNOVA NUKE!');
 
       setBoard([...clearedBoard]);
-      await new Promise(r => setTimeout(r, 120));
+      await new Promise(r => setTimeout(r, 60));
       await processCascades(clearedBoard, 5000, allCandies.length, 2);
       return true;
     }
@@ -781,7 +794,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       addScorePopup(bombPos.x, bombPos.y, addedScore, 'COLOR BOMB CLEAR!');
 
       setBoard([...nextBoard]);
-      await new Promise(r => setTimeout(r, 120));
+      await new Promise(r => setTimeout(r, 60));
       await processCascades(nextBoard, addedScore, clearedCount, 2);
       return true;
     }
@@ -799,7 +812,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       // Highlight matched candies
       setHighlightedMatches(candiesToAnimate);
-      setTimeout(() => setHighlightedMatches([]), 150);
+      setTimeout(() => setHighlightedMatches([]), 80);
 
       // Play satisfying popping sound
       sound.playPop(1.1, matches.length);
@@ -874,7 +887,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
 
       addScorePopup(c2.x, c2.y, addedScore, `+${addedScore}`);
       setBoard([...nextBoard]);
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 30));
       await processCascades(nextBoard, addedScore, addedProgress, 1);
       return true;
     }
@@ -882,7 +895,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
     // 4. Invalid Move: Swap back smoothly!
     sound.playClick();
     haptics.error();
-    await new Promise(r => setTimeout(r, 70));
+    await new Promise(r => setTimeout(r, 40));
     setBoard([...board]); // Reset back to original
     setIsProcessing(false);
     isSwappingRef.current = false;
@@ -1044,7 +1057,7 @@ export function useMatch3Engine(config: LevelConfig, onLevelComplete?: (stars: n
       const deltaY = e.clientY - dragStartRef.current.clientY;
       const absX = Math.abs(deltaX);
       const absY = Math.abs(deltaY);
-      const threshold = 8; // 8px swipe threshold for instant responsive tactile drag
+      const threshold = 5; // 5px swipe threshold for instant responsive tactile drag
 
       if (absX >= threshold || absY >= threshold) {
         const startX = dragStartRef.current.cellX;

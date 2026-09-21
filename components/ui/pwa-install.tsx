@@ -26,6 +26,20 @@ export function PwaInstallPrompt() {
     };
   }, []);
 
+  // Standard Next.js production-only service worker registration
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      'serviceWorker' in navigator &&
+      process.env.NODE_ENV === 'production' &&
+      window.location.hostname === 'candycrusherultra.pages.dev'
+    ) {
+      navigator.serviceWorker.register('/sw.js').catch((err) => {
+        console.warn('[SW] ServiceWorker registration failed:', err);
+      });
+    }
+  }, []);
+
   const handleInstall = async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();

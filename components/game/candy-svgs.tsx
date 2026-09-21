@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import { CandyColor, SpecialType, ObstacleType } from '@/lib/game-types';
 
 interface CandySvgProps {
@@ -10,7 +10,7 @@ interface CandySvgProps {
   size?: number;
 }
 
-export function CandySvg({ color, special = 'none', className = '', size = 52 }: CandySvgProps) {
+export const CandySvg = memo(function CandySvg({ color, special = 'none', className = '', size = 52 }: CandySvgProps) {
   // If it's a Color Bomb (Choco Truffle with Rainbow Sprinkles)
   if (color === 'rainbow' || special === 'color-bomb') {
     return (
@@ -167,7 +167,7 @@ export function CandySvg({ color, special = 'none', className = '', size = 52 }:
       )}
     </div>
   );
-}
+});
 
 function renderCandyShape(color: CandyColor, size: number) {
   switch (color) {
@@ -380,7 +380,7 @@ function renderCandyShape(color: CandyColor, size: number) {
   }
 }
 
-export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: number }) {
+export const ObstacleSvg = memo(function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: number }) {
   if (type === 'licorice') {
     return (
       <svg width={size} height={size} viewBox="0 0 100 100" className="select-none">
@@ -434,4 +434,4 @@ export function ObstacleSvg({ type, size = 52 }: { type: ObstacleType; size?: nu
   }
 
   return null;
-}
+});

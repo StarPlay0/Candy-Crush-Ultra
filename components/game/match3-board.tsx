@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { TitleScreen } from './title-screen';
 import { SagaMap } from './saga-map';
 import { GameBoardView } from './game-board-view';
 import { StickyNotesTasks } from './sticky-notes-tasks';
@@ -9,14 +10,14 @@ import { SettingsModal } from './settings-modal';
 import { BottomTabBar } from '@/components/ui/bottom-tab-bar';
 import { getLevelConfig } from '@/lib/levels';
 import { LevelConfig } from '@/lib/game-types';
-import { loadGameState, saveGameState, GameState } from '@/lib/db';
+import { loadGameState, saveGameState, GameState, DEFAULT_STATE } from '@/lib/db';
 import { advanceLevelProgression } from '@/lib/progression';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Home, Map as MapIcon, Gamepad2 } from 'lucide-react';
 
 export function Match3Board() {
-  const [viewMode, setViewMode] = useState<'map' | 'game'>('map');
-  const [currentLevelConfig, setCurrentLevelConfig] = useState<LevelConfig>(getLevelConfig(17));
-  const [gameState, setGameState] = useState<GameState | null>(null);
+  const [viewMode, setViewMode] = useState<'splash' | 'map' | 'game'>('splash');
+  const [currentLevelConfig, setCurrentLevelConfig] = useState<LevelConfig>(() => getLevelConfig(1));
+  const [gameState, setGameState] = useState<GameState>(DEFAULT_STATE);
   const [currentTab, setCurrentTab] = useState<'map' | 'events' | 'shop'>('map');
 
   // Modals
@@ -24,14 +25,26 @@ export function Match3Board() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    loadGameState().then(state => {
-      setGameState(state);
-      setCurrentLevelConfig(getLevelConfig(state.unlockedLevels || 17));
-      setMounted(true);
-    });
+    let isSubscribed = true;
+
+    loadGameState()
+      .then(state => {
+        if (!isSubscribed) return;
+        if (state) {
+          setGameState(state);
+          const activeLevel = state.unlockedLevels || 1;
+          setCurrentLevelConfig(getLevelConfig(activeLevel));
+        }
+      })
+      .catch(err => {
+        console.warn('Could not load saved game state from storage, using defaults:', err);
+      });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   const handleSelectLevel = (config: LevelConfig) => {
@@ -103,21 +116,74 @@ export function Match3Board() {
     setViewMode('map');
   };
 
-  if (!mounted || !gameState) {
-    return (
-      <div className="w-full h-[650px] bg-pink-100/50 rounded-[3rem] animate-pulse flex items-center justify-center">
-        <div className="text-pink-600 font-black text-xl uppercase tracking-wider">
-          Loading Candy Kingdom...
-        </div>
-      </div>
-    );
-  }
+  const totalStars = Object.values(gameState.stars).reduce((acc, curr) => acc + curr, 0);
 
   return (
-    <div className={`relative w-full h-[750px] md:h-[820px] max-w-md mx-auto rounded-[3rem] overflow-hidden shadow-2xl border-8 ${isDark ? 'border-indigo-900 bg-indigo-950' : 'border-pink-300 bg-sky-100'} flex flex-col justify-between`}>
-      {/* View Switcher: Map vs In-Game Board */}
-      {viewMode === 'map' ? (
-        <div className="relative w-full h-full flex flex-col justify-between">
+    <div 
+      style={{ minHeight: '640px' }}
+      className={`relative w-full h-[680px] sm:h-[740px] md:h-[800px] max-w-md mx-auto rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl border-4 sm:border-8 ${isDark ? 'border-indigo-900 bg-indigo-950' : 'border-pink-300 bg-sky-100'} flex flex-col justify-between`}
+    >
+      {/* Top Universal Quick Switcher Nav (when not on splash) */}
+      {viewMode !== 'splash' && (
+        <div className="w-full flex items-center justify-between px-3 py-1.5 bg-white/95 backdrop-blur-md border-b border-pink-200 z-40 shrink-0 shadow-sm">
+          <button
+            type="button"
+            onClick={() => setViewMode('splash')}
+            title="Return to Title Screen"
+            className="p-1.5 rounded-full hover:bg-pink-100 text-pink-700 transition-all flex items-center gap-1 cursor-pointer font-bold text-xs"
+          >
+            <Home size={16} />
+            <span className="hidden xs:inline">Home</span>
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setViewMode('map')}
+              className={`px-3 py-1 rounded-full font-black text-xs transition-all flex items-center gap-1 cursor-pointer ${
+                viewMode === 'map'
+                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md ring-2 ring-purple-300'
+                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+              }`}
+            >
+              <MapIcon size={13} />
+              <span>Saga Map</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode('game')}
+              className={`px-3 py-1 rounded-full font-black text-xs transition-all flex items-center gap-1 cursor-pointer ${
+                viewMode === 'game'
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md ring-2 ring-pink-300'
+                  : 'bg-pink-50 text-pink-700 hover:bg-pink-100'
+              }`}
+            >
+              <Gamepad2 size={13} />
+              <span>Level {currentLevelConfig.id}</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Screen Views */}
+      {viewMode === 'splash' ? (
+        /* 1. Title / Splash Screen (Reference Image 1) */
+        <TitleScreen
+          onPlay={() => setViewMode('map')}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          unlockedLevel={gameState.unlockedLevels}
+          totalStars={totalStars}
+          coins={gameState.coins}
+          onRestoreProgress={() => {
+            loadGameState().then(state => {
+              if (state) setGameState(state);
+            });
+          }}
+        />
+      ) : viewMode === 'map' ? (
+        /* 2. Saga Map Screen (Reference Image 2) */
+        <div className="relative w-full h-full flex flex-col justify-between overflow-hidden">
           <SagaMap
             unlockedLevel={gameState.unlockedLevels}
             starsMap={gameState.stars}
@@ -130,16 +196,17 @@ export function Match3Board() {
             isDark={isDark}
           />
 
-          {/* Floating Action Button (FAB) for Sticky Tasks */}
+          {/* Floating Action Button (FAB) for Daily Tasks & Quests */}
           <button
             onClick={() => setIsTasksOpen(true)}
             className="absolute bottom-20 right-4 z-40 w-14 h-14 bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-500 text-white rounded-full border-3 border-white shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all animate-bounce cursor-pointer"
             style={{ animationDuration: '4s' }}
+            title="Daily Events & Missions"
           >
             <Sparkles size={24} className="text-yellow-200" />
           </button>
 
-          {/* Mobile Bottom Tab Bar */}
+          {/* Mobile Bottom Tab Bar (Reference Image 2) */}
           <div className="absolute bottom-0 inset-x-0 z-30">
             <BottomTabBar
               currentTab={currentTab}
@@ -153,6 +220,7 @@ export function Match3Board() {
           </div>
         </div>
       ) : (
+        /* 3. In-Game Match-3 Puzzle Board */
         <GameBoardView
           key={`game-board-level-${currentLevelConfig.id}`}
           levelConfig={currentLevelConfig}

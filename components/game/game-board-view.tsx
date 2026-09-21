@@ -364,7 +364,7 @@ export function GameBoardView({
 
           {/* Dynamic Coordinate Grid */}
           <div 
-            className="grid gap-1.5 sm:gap-2 relative z-20"
+            className="grid gap-1 sm:gap-1.5 md:gap-2 relative z-20"
             style={{
               gridTemplateColumns: `repeat(${levelConfig.gridWidth}, minmax(0, 1fr))`,
             }}
@@ -381,98 +381,22 @@ export function GameBoardView({
                 const isInHint = hintIndex !== -1 && !isInTrail;
 
                 return (
-                  <div
+                  <GridCell
                     key={`cell-${x}-${y}`}
-                    onPointerDown={(e) => handlePointerDown(x, y, e)}
-                    className={`w-10 h-10 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-transform duration-150 will-change-transform ${
-                      cell.jelly
-                        ? 'bg-pink-400/45 border-2 border-pink-300/90 shadow-inner'
-                        : 'bg-white/20 dark:bg-white/5 border border-white/30 dark:border-white/10'
-                    } ${
-                      isMatchHighlighted
-                        ? 'ring-4 ring-yellow-300 shadow-[0_0_24px_rgba(253,224,71,0.9)] scale-110 z-40 bg-yellow-300/40'
-                        : isSelected
-                        ? 'ring-4 ring-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.9)] scale-105 z-35 bg-amber-300/30'
-                        : ''
-                    } ${
-                      isInTrail 
-                        ? 'ring-4 ring-white shadow-lg scale-105 z-30' 
-                        : ''
-                    } ${
-                      isTrailHead && isTrailValidMatch
-                        ? 'ring-4 ring-yellow-300 shadow-xl scale-110'
-                        : ''
-                    } ${
-                      isInHint && !isSelected && !isMatchHighlighted
-                        ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_15px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
-                        : ''
-                    } ${
-                      isSwitchTarget ? 'ring-4 ring-cyan-400 scale-105 z-20' : ''
-                    }`}
-                  >
-                    {/* Obstacle Layer */}
-                    {cell.obstacle !== 'none' && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <ObstacleSvg type={cell.obstacle} size={42} />
-                      </div>
-                    )}
-
-                    {/* Match Highlight Flash Star */}
-                    {isMatchHighlighted && (
-                      <div className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none animate-ping">
-                        <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_10px_rgba(255,255,255,1)]" />
-                      </div>
-                    )}
-
-                    {/* Floating Hint Callout Beacon on First Hint Node */}
-                    {isInHint && hintIndex === 0 && (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap">
-                        <Sparkles size={10} className="text-yellow-100" />
-                        <span>HINT</span>
-                      </div>
-                    )}
-
-                    {/* GPU-Accelerated Crisp Candy Layer */}
-                    {cell.candy && (
-                      <div
-                        className={`w-full h-full flex items-center justify-center relative transition-transform duration-150 will-change-transform ${
-                          isMatchHighlighted
-                            ? 'scale-115'
-                            : isSelected
-                            ? 'scale-110'
-                            : isInTrail
-                            ? 'scale-105'
-                            : isInHint
-                            ? 'scale-105'
-                            : 'scale-100'
-                        }`}
-                      >
-                        <CandySvg
-                          color={cell.candy.color}
-                          special={cell.candy.special}
-                          size={46}
-                        />
-
-                        {/* Special Candy Ambient Aura */}
-                        {cell.candy.special === 'color-bomb' && (
-                          <div className="absolute inset-0 rounded-full bg-amber-400/25 animate-ping pointer-events-none" />
-                        )}
-
-                        {/* Sequential Connection Index Pill on Candies in Trail */}
-                        {isInTrail && (
-                          <div
-                            className={`absolute -top-1.5 -right-1.5 z-40 w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center text-[10px] font-black text-white ${
-                              isTrailValidMatch
-                                ? 'bg-gradient-to-tr from-emerald-500 to-teal-400'
-                                : 'bg-amber-500'
-                            }`}
-                          >
-                            {trailIndex + 1}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    x={x}
+                    y={y}
+                    cell={cell}
+                    isSelected={isSelected}
+                    isMatchHighlighted={isMatchHighlighted}
+                    isInTrail={isInTrail}
+                    trailIndex={trailIndex}
+                    isTrailHead={isTrailHead}
+                    isTrailValidMatch={isTrailValidMatch}
+                    isSwitchTarget={isSwitchTarget}
+                    isInHint={isInHint}
+                    hintIndex={hintIndex}
+                    onPointerDown={handlePointerDown}
+                  />
                 );
               })
             )}
@@ -758,7 +682,7 @@ export function GameBoardView({
 
       {/* Bottom Boosters Action Tray */}
       <footer className="relative z-30 w-full px-3 sm:px-4 pb-3 pt-1">
-        <div className="max-w-md mx-auto bg-gradient-to-r from-pink-200/95 via-rose-100/90 to-purple-200/95 dark:from-slate-900/90 dark:to-indigo-950/90 rounded-3xl border-3 border-white dark:border-slate-700 shadow-xl p-2 flex items-center justify-between gap-1.5 backdrop-blur-md">
+        <div className="max-w-md mx-auto bg-white/90 dark:bg-slate-900/90 rounded-3xl border border-purple-200/60 dark:border-purple-800/50 shadow-md p-2 flex items-center justify-between gap-1.5 backdrop-blur-xl">
           {/* Pause / Settings Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -767,13 +691,13 @@ export function GameBoardView({
               haptics.touch();
               setIsPaused(true);
             }}
-            className="w-11 h-11 bg-pink-500 hover:bg-pink-600 rounded-2xl border-2 border-white flex items-center justify-center text-white shadow-md transition-all cursor-pointer"
+            className="w-10 h-10 bg-purple-100 dark:bg-slate-800 hover:bg-purple-200 rounded-2xl border border-purple-200 dark:border-purple-700 flex items-center justify-center text-purple-700 dark:text-purple-300 shadow-xs transition-all cursor-pointer"
             title="Pause Game"
           >
-            <Settings size={20} />
+            <Settings size={18} />
           </motion.button>
 
-          {/* Booster 1: Free Switch Hand */}
+          {/* Booster 1: Free Switch Hand (Teal Pastel) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -781,22 +705,22 @@ export function GameBoardView({
               haptics.touch();
               setActiveBooster(activeBooster === 'switch' ? null : 'switch');
             }}
-            className={`flex-1 py-1.5 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer ${
+            className={`flex-1 py-1 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer border ${
               activeBooster === 'switch'
-                ? 'bg-cyan-500 text-white ring-2 ring-white scale-105 shadow-md'
-                : 'bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-800 dark:text-white'
+                ? 'bg-teal-400 text-white border-teal-300 ring-2 ring-teal-200 shadow-md'
+                : 'bg-teal-50/70 dark:bg-teal-950/30 hover:bg-teal-100/70 text-teal-900 dark:text-teal-200 border-teal-200/60 dark:border-teal-800/40'
             }`}
           >
-            <div className="w-7 h-7 rounded-full bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center shadow-xs">
-              <span className="text-sm">✋</span>
+            <div className="w-6 h-6 rounded-full bg-teal-200/60 dark:bg-teal-900/60 flex items-center justify-center shadow-xs text-xs">
+              ✋
             </div>
             <span className="text-[10px] font-black mt-0.5">Switch</span>
-            <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">
+            <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-xs">
               5
             </span>
           </motion.button>
 
-          {/* Booster 2: Lollipop Hammer */}
+          {/* Booster 2: Lollipop Hammer (Pink Pastel) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -804,22 +728,22 @@ export function GameBoardView({
               haptics.touch();
               setActiveBooster(activeBooster === 'hammer' ? null : 'hammer');
             }}
-            className={`flex-1 py-1.5 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer ${
+            className={`flex-1 py-1 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer border ${
               activeBooster === 'hammer'
-                ? 'bg-pink-500 text-white ring-2 ring-white scale-105 shadow-md'
-                : 'bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-800 dark:text-white'
+                ? 'bg-pink-400 text-white border-pink-300 ring-2 ring-pink-200 shadow-md'
+                : 'bg-pink-50/70 dark:bg-pink-950/30 hover:bg-pink-100/70 text-pink-900 dark:text-pink-200 border-pink-200/60 dark:border-pink-800/40'
             }`}
           >
-            <div className="w-7 h-7 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center shadow-xs">
-              <span className="text-sm">🔨</span>
+            <div className="w-6 h-6 rounded-full bg-pink-200/60 dark:bg-pink-900/60 flex items-center justify-center shadow-xs text-xs">
+              🔨
             </div>
             <span className="text-[10px] font-black mt-0.5">Hammer</span>
-            <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">
+            <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-xs">
               5
             </span>
           </motion.button>
 
-          {/* Booster 3: Color Bomb ("Boll") Booster */}
+          {/* Booster 3: Color Bomb (Purple Pastel) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -827,18 +751,18 @@ export function GameBoardView({
               haptics.touch();
               applyColorBombBooster();
             }}
-            className="flex-1 py-1.5 px-1 rounded-2xl bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-800 dark:text-white flex flex-col items-center justify-center relative transition-all cursor-pointer"
+            className="flex-1 py-1 px-1 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 hover:bg-purple-100/70 text-purple-900 dark:text-purple-200 border border-purple-200/60 dark:border-purple-800/40 flex flex-col items-center justify-center relative transition-all cursor-pointer"
           >
-            <div className="w-7 h-7 flex items-center justify-center">
-              <CandySvg color="rainbow" special="color-bomb" size={24} />
+            <div className="w-6 h-6 flex items-center justify-center">
+              <CandySvg color="rainbow" special="color-bomb" size={22} />
             </div>
             <span className="text-[10px] font-black mt-0.5">Bomb</span>
-            <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">
+            <span className="absolute -top-1 -right-1 bg-purple-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-xs">
               5
             </span>
           </motion.button>
 
-          {/* Booster 4: +5 Extra Moves */}
+          {/* Booster 4: +5 Extra Moves (Amber Pastel) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -846,36 +770,36 @@ export function GameBoardView({
               haptics.touch();
               addExtraMoves();
             }}
-            className="flex-1 py-1.5 px-1 rounded-2xl bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-800 dark:text-white flex flex-col items-center justify-center relative transition-all cursor-pointer"
+            className="flex-1 py-1 px-1 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 hover:bg-amber-100/70 text-amber-900 dark:text-amber-200 border border-amber-200/60 dark:border-amber-800/40 flex flex-col items-center justify-center relative transition-all cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center font-black text-xs text-amber-700 dark:text-amber-300 shadow-xs">
+            <div className="w-6 h-6 rounded-full bg-amber-200/60 dark:bg-amber-900/60 flex items-center justify-center font-black text-xs text-amber-800 dark:text-amber-200 shadow-xs">
               +5
             </div>
             <span className="text-[10px] font-black mt-0.5">Moves</span>
-            <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">
+            <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white shadow-xs">
               5
             </span>
           </motion.button>
 
-          {/* Booster 5: Match Hint Trigger */}
+          {/* Booster 5: Match Hint Trigger (Sky Pastel) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
               triggerHint();
             }}
-            className={`flex-1 py-1.5 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer ${
+            className={`flex-1 py-1 px-1 rounded-2xl flex flex-col items-center justify-center relative transition-all cursor-pointer border ${
               hintTrail
-                ? 'bg-amber-400 text-amber-950 ring-2 ring-yellow-200 scale-105 shadow-md animate-pulse'
-                : 'bg-white/80 dark:bg-slate-800/80 hover:bg-white text-slate-800 dark:text-white'
+                ? 'bg-sky-400 text-white border-sky-300 ring-2 ring-sky-200 shadow-md animate-pulse'
+                : 'bg-sky-50/70 dark:bg-sky-950/30 hover:bg-sky-100/70 text-sky-900 dark:text-sky-200 border-sky-200/60 dark:border-sky-800/40'
             }`}
             title="Highlight Potential Candy Match"
           >
-            <div className="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-600 dark:text-amber-300 shadow-xs">
-              <Lightbulb size={16} className={hintTrail ? 'fill-amber-500' : ''} />
+            <div className="w-6 h-6 rounded-full bg-sky-200/60 dark:bg-sky-900/60 flex items-center justify-center text-sky-600 dark:text-sky-300 shadow-xs">
+              <Lightbulb size={14} className={hintTrail ? 'fill-sky-500' : ''} />
             </div>
             <span className="text-[10px] font-black mt-0.5">Hint</span>
-            <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-[8px] font-black px-1 rounded-full flex items-center justify-center border border-white shadow-xs">
+            <span className="absolute -top-1 -right-1 bg-sky-500 text-white text-[8px] font-black px-1 rounded-full flex items-center justify-center border border-white shadow-xs">
               FREE
             </span>
           </motion.button>
@@ -1029,3 +953,129 @@ export function GameBoardView({
     </div>
   );
 }
+
+interface GridCellProps {
+  x: number;
+  y: number;
+  cell: import('@/lib/game-types').Cell;
+  isSelected: boolean;
+  isMatchHighlighted: boolean;
+  isInTrail: boolean;
+  trailIndex: number;
+  isTrailHead: boolean;
+  isTrailValidMatch: boolean;
+  isSwitchTarget: boolean;
+  isInHint: boolean;
+  hintIndex: number;
+  onPointerDown: (x: number, y: number, e: React.PointerEvent) => void;
+}
+
+const GridCell = React.memo(function GridCell({
+  x,
+  y,
+  cell,
+  isSelected,
+  isMatchHighlighted,
+  isInTrail,
+  trailIndex,
+  isTrailHead,
+  isTrailValidMatch,
+  isSwitchTarget,
+  isInHint,
+  hintIndex,
+  onPointerDown,
+}: GridCellProps) {
+  return (
+    <div
+      onPointerDown={(e) => onPointerDown(x, y, e)}
+      className={`w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center relative cursor-pointer select-none transition-transform duration-100 ${
+        cell.jelly
+          ? 'bg-pink-400/45 border-2 border-pink-300/90 shadow-inner'
+          : 'bg-white/20 dark:bg-white/5 border border-white/30 dark:border-white/10'
+      } ${
+        isMatchHighlighted
+          ? 'ring-4 ring-yellow-300 shadow-[0_0_20px_rgba(253,224,71,0.9)] scale-110 z-40 bg-yellow-300/40'
+          : isSelected
+          ? 'ring-4 ring-amber-300 shadow-[0_0_16px_rgba(251,191,36,0.9)] scale-105 z-35 bg-amber-300/30'
+          : ''
+      } ${
+        isInTrail 
+          ? 'ring-4 ring-white shadow-lg scale-105 z-30' 
+          : ''
+      } ${
+        isTrailHead && isTrailValidMatch
+          ? 'ring-4 ring-yellow-300 shadow-xl scale-110'
+          : ''
+      } ${
+        isInHint && !isSelected && !isMatchHighlighted
+          ? 'ring-3 ring-amber-400 dark:ring-yellow-300 shadow-[0_0_12px_rgba(245,158,11,0.85)] z-25 bg-amber-200/40 dark:bg-amber-900/40 scale-105'
+          : ''
+      } ${
+        isSwitchTarget ? 'ring-4 ring-cyan-400 scale-105 z-20' : ''
+      }`}
+    >
+      {/* Obstacle Layer */}
+      {cell.obstacle !== 'none' && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <ObstacleSvg type={cell.obstacle} size={36} />
+        </div>
+      )}
+
+      {/* Match Highlight Flash Star */}
+      {isMatchHighlighted && (
+        <div className="absolute inset-0 z-45 flex items-center justify-center pointer-events-none animate-ping">
+          <Sparkles className="w-8 h-8 text-yellow-200 drop-shadow-[0_0_10px_rgba(255,255,255,1)]" />
+        </div>
+      )}
+
+      {/* Floating Hint Callout Beacon on First Hint Node */}
+      {isInHint && hintIndex === 0 && (
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-amber-500 to-yellow-400 text-amber-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-white shadow-md flex items-center gap-0.5 pointer-events-none whitespace-nowrap">
+          <Sparkles size={10} className="text-yellow-100" />
+          <span>HINT</span>
+        </div>
+      )}
+
+      {/* GPU-Accelerated Crisp Candy Layer */}
+      {cell.candy && (
+        <div
+          className={`w-full h-full flex items-center justify-center relative transition-transform duration-100 ${
+            isMatchHighlighted
+              ? 'scale-115'
+              : isSelected
+              ? 'scale-110'
+              : isInTrail
+              ? 'scale-105'
+              : isInHint
+              ? 'scale-105'
+              : 'scale-100'
+          }`}
+        >
+          <CandySvg
+            color={cell.candy.color}
+            special={cell.candy.special}
+            size={36}
+          />
+
+          {/* Special Candy Ambient Aura */}
+          {cell.candy.special === 'color-bomb' && (
+            <div className="absolute inset-0 rounded-full bg-amber-400/25 animate-ping pointer-events-none" />
+          )}
+
+          {/* Sequential Connection Index Pill on Candies in Trail */}
+          {isInTrail && (
+            <div
+              className={`absolute -top-1.5 -right-1.5 z-40 w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center text-[10px] font-black text-white ${
+                isTrailValidMatch
+                  ? 'bg-gradient-to-tr from-emerald-500 to-teal-400'
+                  : 'bg-amber-500'
+              }`}
+            >
+              {trailIndex + 1}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+});

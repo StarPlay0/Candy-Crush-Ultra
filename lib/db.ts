@@ -14,7 +14,7 @@ export interface GameState {
   };
 }
 
-const DEFAULT_STATE: GameState = {
+export const DEFAULT_STATE: GameState = {
   unlockedLevels: 1,
   stars: {},
   lives: 5,

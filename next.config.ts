@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
     ],
   },
   output: 'export',
+  trailingSlash: true,
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
@@ -30,6 +31,18 @@ const nextConfig: NextConfig = {
         ignored: /.*/,
       };
     }
+
+    // Explicitly exclude sw.js from being processed or bundled into Webpack application chunks
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    config.module.rules.push({
+      test: /(?:^|[/\\])sw\.js$/,
+      type: 'asset/resource',
+      generator: {
+        emit: false, // Do not emit as a Webpack chunk asset
+      },
+    });
+
     return config;
   },
 };

@@ -42,7 +42,7 @@ export function SplashScreen() {
     // Fallback safety timer so the screen never gets permanently stuck
     const safetyTimer = setTimeout(() => {
       if (isMounted) setIsVisible(false);
-    }, 4000);
+    }, 900);
 
     return () => {
       isMounted = false;
@@ -56,9 +56,20 @@ export function SplashScreen() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center select-none"
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          onClick={() => setIsVisible(false)}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center select-none cursor-pointer"
           style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            animation: 'splashAutoDismiss 1.2s ease-out forwards',
             background: 'radial-gradient(circle at center, #BAE6FD 0%, #FBCFE8 50%, #E0D4FD 100%)',
           }}
         >
@@ -111,6 +122,18 @@ export function SplashScreen() {
                 </span>
               </div>
             </div>
+
+            {/* Instant Skip / Play Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsVisible(false);
+              }}
+              className="mt-6 px-6 py-2.5 bg-white text-pink-600 font-black text-xs uppercase tracking-wider rounded-full shadow-lg border-2 border-pink-200 hover:bg-pink-50 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              <span>▶</span> Play Game Now
+            </button>
           </motion.div>
         </motion.div>
       )}

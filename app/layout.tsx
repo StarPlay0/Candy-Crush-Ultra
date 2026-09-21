@@ -2,6 +2,7 @@ import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { PwaInstallPrompt } from '@/components/ui/pwa-install';
 import { SiteBottomNav } from '@/components/ui/site-bottom-nav';
+import { DevSwDiagnosticOverlay } from '@/components/ui/dev-sw-diagnostic';
 import { generateWebSiteSchema, generateVideoGameSchema } from '@/lib/schema';
 
 export const viewport: Viewport = {
@@ -11,6 +12,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
 };
 
 export const metadata: Metadata = {
@@ -78,6 +80,30 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <meta name="x5-fullscreen" content="true" />
         <meta name="x5-page-mode" content="app" />
         <meta name="browsermode" content="application" />
+        {/* eslint-disable-next-line @next/next/no-css-tags */}
+        <link rel="stylesheet" href="/candy-theme.css" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+@keyframes splashAutoDismiss {
+  0% { opacity: 1; pointer-events: auto; }
+  75% { opacity: 1; pointer-events: auto; }
+  100% { opacity: 0; pointer-events: none; visibility: hidden; }
+}
+.hidden { display: none !important; }
+@media (min-width: 1024px) {
+  .lg\\:flex { display: flex !important; }
+}
+`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -86,14 +112,36 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(videoGameSchema) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function() {
+  if (typeof window === 'undefined') return;
+  // Unregister all service workers and wipe CacheStorage
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for (var i = 0; i < registrations.length; i++) {
+        registrations[i].unregister();
+      }
+    }).catch(function() {});
+  }
+  if ('caches' in window) {
+    caches.keys().then(function(keys) {
+      for (var j = 0; j < keys.length; j++) {
+        caches.delete(keys[j]);
+      }
+    }).catch(function() {});
+  }
+})();
+`,
+          }}
+        />
       </head>
       <body className="antialiased font-sans selection:bg-white/30 min-h-screen bg-[#5BCEFA]" style={{ background: 'radial-gradient(circle at center, #64D3FF 0%, #2980B9 100%)' }} suppressHydrationWarning>
         {children}
         <PwaInstallPrompt />
         <SiteBottomNav />
-        <script dangerouslySetInnerHTML={{
-          __html: `if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }`
-        }} />
+        <DevSwDiagnosticOverlay />
       </body>
     </html>
   );
