@@ -10,15 +10,32 @@ import { SettingsModal } from './settings-modal';
 import { BottomTabBar } from '@/components/ui/bottom-tab-bar';
 import { getLevelConfig } from '@/lib/levels';
 import { LevelConfig } from '@/lib/game-types';
-import { loadGameState, saveGameState, GameState, DEFAULT_STATE } from '@/lib/db';
-import { advanceLevelProgression } from '@/lib/progression';
+import { useGameState } from '@/hooks/use-game-state';
 import { Sparkles, Home, Map as MapIcon, Gamepad2 } from 'lucide-react';
 
 export function Match3Board() {
   const [viewMode, setViewMode] = useState<'splash' | 'map' | 'game'>('splash');
-  const [currentLevelConfig, setCurrentLevelConfig] = useState<LevelConfig>(() => getLevelConfig(1));
-  const [gameState, setGameState] = useState<GameState>(DEFAULT_STATE);
+  const [selectedLevelId, setSelectedLevelId] = useState<number | null>(null);
   const [currentTab, setCurrentTab] = useState<'map' | 'events' | 'shop'>('map');
+
+  // Unified localStorage wrapper hook
+  const {
+    gameState,
+    unlockedLevels,
+    stars,
+    totalStars,
+    coins,
+    lives,
+    recordLevelCompletion,
+    addCoins,
+    buyBooster,
+    resetProgress,
+    syncNow,
+  } = useGameState();
+
+  // Active level config
+  const activeLevelId = selectedLevelId ?? unlockedLevels ?? 1;
+  const currentLevelConfig = getLevelConfig(activeLevelId);
 
   // Modals
   const [isTasksOpen, setIsTasksOpen] = useState(false);
@@ -26,29 +43,8 @@ export function Match3Board() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => {
-    let isSubscribed = true;
-
-    loadGameState()
-      .then(state => {
-        if (!isSubscribed) return;
-        if (state) {
-          setGameState(state);
-          const activeLevel = state.unlockedLevels || 1;
-          setCurrentLevelConfig(getLevelConfig(activeLevel));
-        }
-      })
-      .catch(err => {
-        console.warn('Could not load saved game state from storage, using defaults:', err);
-      });
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
-
   const handleSelectLevel = (config: LevelConfig) => {
-    setCurrentLevelConfig(config);
+    setSelectedLevelId(config.id);
     setViewMode('game');
   };
 
@@ -57,66 +53,28 @@ export function Match3Board() {
    * Once a level's target score or objective is reached, updates local state
    * and IndexedDB so the next level becomes selectable immediately.
    */
-  const handleLevelComplete = async (stars: number, score: number) => {
-    if (!gameState) return;
-    const { nextState } = await advanceLevelProgression(
-      currentLevelConfig.id,
-      stars,
-      score,
-      gameState
-    );
-    setGameState(nextState);
+  const handleLevelComplete = async (starsEarned: number, score: number) => {
+    await recordLevelCompletion(currentLevelConfig.id, starsEarned, score);
   };
 
   const handleNextLevel = (nextLevelId: number) => {
-    const nextConfig = getLevelConfig(Math.min(199, nextLevelId));
-    setCurrentLevelConfig(nextConfig);
+    setSelectedLevelId(Math.min(199, nextLevelId));
     setViewMode('game');
   };
 
   const handleClaimReward = async (coinsEarned: number) => {
-    if (!gameState) return;
-    const newState = {
-      ...gameState,
-      coins: gameState.coins + coinsEarned,
-    };
-    await saveGameState(newState);
-    setGameState(newState);
+    addCoins(coinsEarned);
   };
 
   const handleBuyBooster = async (type: string, cost: number) => {
-    if (!gameState || gameState.coins < cost) return;
-    const newState = {
-      ...gameState,
-      coins: gameState.coins - cost,
-      boosters: {
-        ...gameState.boosters,
-        colorBomb: type === 'color-bomb' ? gameState.boosters.colorBomb + 1 : gameState.boosters.colorBomb,
-        striped: type === 'switch' ? gameState.boosters.striped + 1 : gameState.boosters.striped,
-        wrapped: type === 'hammer' ? gameState.boosters.wrapped + 1 : gameState.boosters.wrapped,
-      },
-    };
-    await saveGameState(newState);
-    setGameState(newState);
+    buyBooster(type, cost);
   };
 
   const handleResetProgress = async () => {
-    const defaultState: GameState = {
-      unlockedLevels: 1,
-      stars: {},
-      lives: 5,
-      lastLifeLostAt: null,
-      highScores: {},
-      coins: 500,
-      boosters: { colorBomb: 3, striped: 3, wrapped: 3 },
-    };
-    await saveGameState(defaultState);
-    setGameState(defaultState);
-    setCurrentLevelConfig(getLevelConfig(1));
+    await resetProgress();
+    setSelectedLevelId(1);
     setViewMode('map');
   };
-
-  const totalStars = Object.values(gameState.stars).reduce((acc, curr) => acc + curr, 0);
 
   return (
     <div 
@@ -176,9 +134,7 @@ export function Match3Board() {
           totalStars={totalStars}
           coins={gameState.coins}
           onRestoreProgress={() => {
-            loadGameState().then(state => {
-              if (state) setGameState(state);
-            });
+            syncNow();
           }}
         />
       ) : viewMode === 'map' ? (
@@ -252,6 +208,7 @@ export function Match3Board() {
           setCurrentTab('map');
         }}
         coins={gameState.coins}
+        boosters={gameState.boosters}
         onBuyBooster={handleBuyBooster}
         isDark={isDark}
       />

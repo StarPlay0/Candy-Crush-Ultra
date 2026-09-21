@@ -11,6 +11,11 @@ interface ShopModalProps {
   isOpen: boolean;
   onClose: () => void;
   coins: number;
+  boosters?: {
+    colorBomb: number;
+    striped: number;
+    wrapped: number;
+  };
   onBuyBooster: (type: string, cost: number) => void;
   isDark?: boolean;
 }
@@ -19,6 +24,7 @@ export function ShopModal({
   isOpen,
   onClose,
   coins,
+  boosters,
   onBuyBooster,
   isDark = false,
 }: ShopModalProps) {
@@ -32,6 +38,7 @@ export function ShopModal({
       cost: 150,
       icon: <CandySvg color="rainbow" special="color-bomb" size={36} />,
       bg: 'bg-[#FBCFE8]',
+      owned: boosters?.colorBomb ?? 0,
     },
     {
       id: 'hammer',
@@ -40,6 +47,7 @@ export function ShopModal({
       cost: 100,
       icon: <span className="text-3xl">🔨</span>,
       bg: 'bg-[#BAE6FD]',
+      owned: boosters?.wrapped ?? 0,
     },
     {
       id: 'switch',
@@ -48,6 +56,7 @@ export function ShopModal({
       cost: 80,
       icon: <span className="text-3xl">✋</span>,
       bg: 'bg-[#99F6E4]',
+      owned: boosters?.striped ?? 0,
     },
     {
       id: 'extra-moves',
@@ -56,6 +65,7 @@ export function ShopModal({
       cost: 120,
       icon: <span className="text-2xl font-black text-amber-700">+5</span>,
       bg: 'bg-[#FEF08A]',
+      owned: 0,
     },
   ];
 
@@ -99,14 +109,21 @@ export function ShopModal({
                 key={item.id}
                 className={`p-3.5 rounded-2xl border-2 border-black/5 shadow-md flex items-center justify-between gap-3 ${item.bg}`}
               >
-                <div className="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center shadow-xs flex-shrink-0">
+                <div className="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center shadow-xs flex-shrink-0 relative">
                   {item.icon}
+                  {item.id !== 'extra-moves' && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-pink-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded-full shadow-xs border border-white">
+                      x{item.owned}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-black text-slate-900 text-sm tracking-tight truncate">
-                    {item.name}
-                  </h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-black text-slate-900 text-sm tracking-tight truncate">
+                      {item.name}
+                    </h4>
+                  </div>
                   <p className="text-[11px] font-bold text-slate-700 leading-tight">
                     {item.description}
                   </p>
