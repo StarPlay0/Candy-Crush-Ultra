@@ -45,6 +45,18 @@ if (fs.existsSync(outDir)) {
 
   console.log('[verify-sw] ✓ out/sw.js exists and contains valid JavaScript.');
 
+  // Sync _headers and _redirects to out directory for Cloudflare Pages
+  const headersPath = path.join(projectRoot, 'public', '_headers');
+  const redirectsPath = path.join(projectRoot, 'public', '_redirects');
+  if (fs.existsSync(headersPath)) {
+    fs.copyFileSync(headersPath, path.join(outDir, '_headers'));
+    console.log('[verify-sw] ✓ Synced _headers to out/_headers');
+  }
+  if (fs.existsSync(redirectsPath)) {
+    fs.copyFileSync(redirectsPath, path.join(outDir, '_redirects'));
+    console.log('[verify-sw] ✓ Synced _redirects to out/_redirects');
+  }
+
   // Sync compiled CSS to candy-theme.css so pure static loads always have styles
   const cssDir = path.join(outDir, '_next', 'static', 'css');
   if (fs.existsSync(cssDir)) {

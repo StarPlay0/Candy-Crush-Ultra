@@ -1,16 +1,28 @@
+# Cloudflare Pages Headers Configuration
+
+# Default for HTML, root, and dynamic pages: always revalidate so updates are immediate
 /*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
 
 /*.html
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Next.js immutable static build assets (JS chunks, CSS with content hashes)
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Service worker and manifest: never store stale SW
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
   Content-Type: application/javascript; charset=utf-8
   Service-Worker-Allowed: /
 
 /manifest.json
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
   Content-Type: application/manifest+json
 
 /.well-known/assetlinks.json
