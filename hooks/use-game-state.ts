@@ -19,20 +19,15 @@ function normalizeBoosterKey(type: string): BoosterKey {
  * and booster inventory across browser sessions with zero external database dependencies.
  */
 export function useGameState() {
-  const [gameState, setGameState] = useState<GameState>(() => {
-    if (typeof window !== 'undefined') {
-      return getLocalStorageState();
-    }
-    return DEFAULT_STATE;
-  });
+  const [gameState, setGameState] = useState<GameState>(DEFAULT_STATE);
   const [isLoaded, setIsLoaded] = useState(false);
-  const isInitialMount = useRef(true);
+  const hasHydrated = useRef(false);
 
-  // Initialize and synchronize with localStorage & IndexedDB on mount
+  // Initialize and synchronize with localStorage & IndexedDB on mount (client-only to prevent hydration mismatch)
   useEffect(() => {
     let isSubscribed = true;
 
-    // Load from storage layers
+    // Load from storage layers asynchronously
     loadGameState()
       .then((loaded) => {
         if (!isSubscribed) return;
@@ -40,10 +35,14 @@ export function useGameState() {
           setGameState(loaded);
         }
         setIsLoaded(true);
+        hasHydrated.current = true;
       })
       .catch((err) => {
         console.warn('[useGameState] Error loading state from storage:', err);
-        setIsLoaded(true);
+        if (isSubscribed) {
+          setIsLoaded(true);
+          hasHydrated.current = true;
+        }
       });
 
     // Cross-tab synchronization via window storage events
@@ -72,10 +71,9 @@ export function useGameState() {
     };
   }, []);
 
-  // Sync state to localStorage whenever gameState changes
+  // Sync state to localStorage whenever gameState changes after initial hydration
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    if (!hasHydrated.current) {
       return;
     }
     setLocalStorageState(gameState);
