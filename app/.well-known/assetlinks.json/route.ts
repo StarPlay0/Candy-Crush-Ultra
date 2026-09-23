@@ -10,17 +10,7 @@ export async function GET() {
         namespace: 'android_app',
         package_name: 'dev.pages.candycrusherultra.twa',
         sha256_cert_fingerprints: [
-          '9D:17:25:5D:27:2E:68:85:9D:D8:33:91:CC:66:5E:71:19:1F:26:C6:A6:7E:C9:60:92:09:52:29:7E:DD:1D:E0',
-        ],
-      },
-    },
-    {
-      relation: ['delegate_permission/common.handle_all_urls'],
-      target: {
-        namespace: 'android_app',
-        package_name: 'dev.pages.candycrushultra.twa',
-        sha256_cert_fingerprints: [
-          '9D:17:25:5D:27:2E:68:85:9D:D8:33:91:CC:66:5E:71:19:1F:26:C6:A6:7E:C9:60:92:09:52:29:7E:DD:1D:E0',
+          'F0:8A:EB:DE:C9:CD:A1:4E:81:11:BA:DB:A3:E1:3D:B7:C8:0F:D4:DB:11:80:F9:23:1F:DF:2E:23:D3:F2:4A:0D',
         ],
       },
     },
@@ -34,4 +24,3 @@ export async function GET() {
     },
   });
 }
-
