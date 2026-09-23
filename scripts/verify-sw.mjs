@@ -45,6 +45,17 @@ if (fs.existsSync(outDir)) {
 
   console.log('[verify-sw] ✓ out/sw.js exists and contains valid JavaScript.');
 
+  // Sync .well-known/assetlinks.json to out directory for Android Digital Asset Links verification
+  const wellKnownPublic = path.join(projectRoot, 'public', '.well-known', 'assetlinks.json');
+  const wellKnownOutDir = path.join(outDir, '.well-known');
+  if (fs.existsSync(wellKnownPublic)) {
+    if (!fs.existsSync(wellKnownOutDir)) {
+      fs.mkdirSync(wellKnownOutDir, { recursive: true });
+    }
+    fs.copyFileSync(wellKnownPublic, path.join(wellKnownOutDir, 'assetlinks.json'));
+    console.log('[verify-sw] ✓ Synced .well-known/assetlinks.json to out/.well-known/assetlinks.json');
+  }
+
   // Sync _headers and _redirects to out directory for Cloudflare Pages
   const headersPath = path.join(projectRoot, 'public', '_headers');
   const redirectsPath = path.join(projectRoot, 'public', '_redirects');

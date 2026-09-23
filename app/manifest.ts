@@ -10,10 +10,11 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'A premium, fully offline Match-3 puzzle game with 199 handcrafted levels, zero ads, and pure static performance.',
     start_url: '/',
     scope: '/',
-    display: 'standalone',
+    display: 'fullscreen',
     display_override: [
-      'standalone',
       'fullscreen',
+      'standalone',
+      'window-controls-overlay',
       'minimal-ui',
     ] as any,
     orientation: 'portrait' as any,
