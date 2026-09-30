@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
 
       - name: Setup Android Tool
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Build App
         run: |
