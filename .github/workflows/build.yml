@@ -1,0 +1,35 @@
+name: Build Android App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android Tool
+        uses: android-actions/setup-android@v3
+
+      - name: Build App
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Save APK File
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
