@@ -13,6 +13,11 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -21,6 +26,13 @@ jobs:
 
       - name: Setup Android Tool
         uses: android-actions/setup-android@v4
+
+      - name: Install Dependencies & Capacitor Android
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init --web-dir out MyApp com.myapp.app --yes
+          npx cap add android
 
       - name: Build App
         run: |
