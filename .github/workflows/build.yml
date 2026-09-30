@@ -27,14 +27,19 @@ jobs:
       - name: Setup Android Tool
         uses: android-actions/setup-android@v4
 
-      - name: Install Dependencies & Capacitor Android
+      - name: Install Dependencies & Build Next.js
         run: |
           npm install
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init --web-dir out MyApp com.myapp.app --yes
-          npx cap add android
+          npm run build || npx next build
 
-      - name: Build App
+      - name: Setup Capacitor and Android Platform
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init MyApp com.myapp.app --web-dir out
+          npx cap add android
+          npx cap sync android
+
+      - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
