@@ -1,0 +1,59 @@
+name: Build Android APK and AAB
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android Tool
+        uses: android-actions/setup-android@v4
+
+      - name: Install Dependencies & Build Next.js
+        run: |
+          npm install
+          npm run build || npx next build
+
+      - name: Setup Capacitor and Android Platform
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init MyApp com.myapp.app --web-dir out
+          npx cap add android
+          npx cap sync android
+
+      - name: Build Android APK and AAB
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+          ./gradlew bundleRelease
+
+      - name: Save APK File
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Save AAB File (For Play Store)
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
