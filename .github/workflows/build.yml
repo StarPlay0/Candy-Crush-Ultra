@@ -36,7 +36,6 @@ jobs:
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
           
-          # Automatically create a valid configuration file so it never fails
           cat << 'EOF' > capacitor.config.json
           {
             "appId": "com.myapp.app",
@@ -51,7 +50,7 @@ jobs:
           npx cap add android || true
           npx cap sync android
 
-      - name: Build Android APK and AAB
+      - name: Build APK and AAB explicitly
         run: |
           cd android
           chmod +x gradlew
