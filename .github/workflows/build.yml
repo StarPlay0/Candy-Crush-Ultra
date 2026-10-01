@@ -13,10 +13,10 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Setup Java 21
         uses: actions/setup-java@v4
@@ -32,10 +32,22 @@ jobs:
           npm install
           npx next build
 
-      - name: Setup Capacitor and Add Android
+      - name: Create Capacitor Config & Add Android
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init MyApp com.myapp.app --web-dir out --yes || true
+          
+          # Automatically create a valid configuration file so it never fails
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.myapp.app",
+            "appName": "MyApp",
+            "webDir": "out",
+            "server": {
+              "androidScheme": "https"
+            }
+          }
+          EOF
+
           npx cap add android || true
           npx cap sync android
 
