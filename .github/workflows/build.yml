@@ -18,25 +18,25 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Setup Java 17
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Setup Android Tool
         uses: android-actions/setup-android@v4
 
-      - name: Install Dependencies & Build Next.js
+      - name: Build Next.js Static Export
         run: |
           npm install
-          npm run build || npx next build
+          npx next build
 
-      - name: Setup Capacitor and Android Platform
+      - name: Setup Capacitor and Add Android
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init MyApp com.myapp.app --web-dir out
-          npx cap add android
+          npx cap init MyApp com.myapp.app --web-dir out --yes || true
+          npx cap add android || true
           npx cap sync android
 
       - name: Build Android APK and AAB
@@ -52,7 +52,7 @@ jobs:
           name: my-app-apk
           path: android/app/build/outputs/apk/release/app-release.apk
 
-      - name: Save AAB File (For Play Store)
+      - name: Save AAB File
         uses: actions/upload-artifact@v4
         with:
           name: my-app-aab
